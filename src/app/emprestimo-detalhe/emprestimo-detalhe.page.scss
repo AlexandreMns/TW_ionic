@@ -1,0 +1,47 @@
+.voltar-atras {
+    background-color: #333;
+    margin-top: 2px;
+    color: #fff; 
+    border: none; 
+    border-radius: 17px; 
+    padding: 5px 15px; 
+    font-size: 15px; 
+    cursor: pointer; 
+    transition: background-color 0.3s, color 0.3s; 
+}
+
+.voltar-atras:hover {
+    background-color: #555;
+}
+.input-livro {
+    padding: 10px 15px; 
+    border: 2px solid #ccc; 
+    margin-top: 5px;
+    border-radius: 5px; 
+    font-size: 16px; 
+    transition: border-color 0.3s ease; 
+    width: 300px; 
+    background-color: #f8f8f8; 
+    margin-left: 30px; 
+}
+
+.input-livro:focus {
+    border-color: #5b9dd9; 
+    outline: none; 
+    box-shadow: 0 0 5px #5b9dd9; 
+}
+.sexto {
+    color: #fff;
+    background-image: linear-gradient(to right, rgb(18, 231, 28), rgb(112, 230, 101), rgb(0, 255, 0));
+    border-radius: 8px;
+    font-weight: medium;
+    font-size: 1rem; 
+    padding: 10px 25px; 
+    text-align: center;
+    outline: none;
+}
+
+.sexto:hover,
+.sexto:focus {
+    background-image: linear-gradient(to bottom right,rgb(18, 231, 28), rgb(112, 230, 101), rgb(0, 255, 0));
+}

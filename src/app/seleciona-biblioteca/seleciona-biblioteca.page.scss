@@ -1,0 +1,30 @@
+.primeiro {
+    color: white;
+    background-color: #4a90e2; 
+    border: none;
+    border-radius: 9999px; 
+    padding: 0.625rem 1.25rem; 
+    font-size: 0.875rem; 
+    line-height: 1.25rem; 
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s, box-shadow 0.2s;
+  }
+  
+  .primeiro:hover {
+    background-color: #3578c1; 
+  }
+  
+  .primeiro:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5); 
+  }
+  
+  .arrow-icon {
+    width: 0.875rem;
+    height: 0.875rem; 
+    margin-left: 0.3125rem; 
+  }
+  

@@ -1,0 +1,48 @@
+<div class="container">
+    <div class="row mb-3">
+      <div class="col-md-9 themed-grid-col">
+        <h2>{{biblioteca.name}}</h2>
+        <h6>{{biblioteca.address}}</h6>
+        <p *ngIf="biblioteca.open" class="text-muted">{{biblioteca.openStatement + " "+biblioteca.openDays}}</p>
+        <div class="container" style="margin-top: 30px;">
+        <button type="button" class="btn btn-sm btn-outline-secondary voltar-atras" (click)="goToBibiloteca()"><span style="font-size: 20px;">&laquo;</span> Voltar à Biblioteca</button>
+        <input class="input-livro" #box (keyup.enter)="onEnter(box.value)" (keyup.enter)="sensorEnter(true)" placeholder="Insira o ISBN do livro"/>
+            <p *ngIf="this.mensagemErro == 'ISBN inválido'">{{ this.mensagemErro }}</p>
+            <div *ngIf="this.mensagemErro == 'ISBN válido'">
+                <p>{{ "Isbn: "+livro.isbn }}</p>
+                <p>{{ "Título: "+ livro.title}}</p>
+                <p>{{ livro.byStatement }}</p>
+                <img *ngIf="getImg(livro, 2) == null"[src]='getImg(livro, 2)' alt="Capa do livro" class="img-thumbnail">
+                <img *ngIf="getImg(livro, 2) != null"[src]='getImg(livro, 2)' alt="Capa do livro" class="img-thumbnail">
+                <p>{{ livro.description }}</p>
+                <p *ngIf="livro.authors && livro.authors.length > 0">
+                    <span *ngFor="let author of livro.authors">
+                        <p *ngIf="author.name">Nome: {{ author.name }}</p>
+                        <p *ngIf="author.bio">Bibliografia: {{ author.bio }}</p>
+                        <p *ngIf="author.deathDate">Data da morte de {{author.name}}: {{ author.deathDate }}</p>
+                        <p *ngIf="author.birthDate">Data de nascimento de {{author.name}}: {{ author.birthDate }}</p>
+                        <p *ngIf="author.id">ID: {{ author.id }}</p>
+                        <li *ngIf="author.alternateName && author.alternateName.length > 0">
+                            <p>Alternate Names:</p>
+                            <ul>
+                            <li *ngFor="let name of author.alternateName">
+                                <p>{{ name }}</p>
+                            </li>
+                            </ul>
+                        </li>
+                    </span>
+                </p> 
+                <p *ngIf="x == true">Número de páginas: {{ livro.numberOfPages}}</p>
+                <input type="number" placeholder="Digite o Stock" name="stock" ngModel/>
+                <button>Submit</button>
+
+            </div>
+            <button type="button" class="btn btn-sm btn-outline-secondary terceiro" (click)="goToBibiloteca()">Adicionar {{ livro.title}} à biblioteca</button>
+      </div>
+      </div>
+      <!-- Coluna lateral com seleção de biblioteca -->
+      <div class="col-md-3 themed-grid-col">
+        <seleciona-biblioteca (updateBibioteca)="getBiblioId($event)"></seleciona-biblioteca>
+      </div>
+    </div>
+</div>

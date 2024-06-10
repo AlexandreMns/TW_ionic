@@ -1,0 +1,69 @@
+.quinto {
+    color: #fff;
+    background-image: linear-gradient(to right, #00bcd4, #2196f3);
+    border-radius: 8px;
+    font-weight: medium;
+    font-size: 1rem; /* Tamanho de fonte aumentado */
+    padding: 12px 30px; /* Padding aumentado */
+    text-align: center;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    outline: none;
+}
+
+.quinto:hover,
+.quinto:focus {
+    background-image: linear-gradient(to bottom left, #00bcd4, #2196f3);
+    box-shadow: 0 0 0 2px rgba(0, 188, 212, 0.5); 
+}
+
+.quarto {
+    color: #fff;
+    background-image: linear-gradient(to right, #f00, #f55, #f00);
+    border-radius: 8px;
+    font-weight: medium;
+    font-size: 1rem; 
+    padding: 12px 30px; 
+    text-align: center;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    outline: none;
+}
+
+.quarto:hover,
+.quarto:focus {
+    background-image: linear-gradient(to bottom right, #f00, #f55, #f00);
+}
+
+.voltar-atras {
+    background-color: #333;
+    margin-top: 2px;
+    color: #fff; 
+    border: none; 
+    border-radius: 17px; 
+    padding: 5px 15px; 
+    font-size: 15px; 
+    cursor: pointer; 
+    transition: background-color 0.3s, color 0.3s; 
+}
+
+.voltar-atras:hover {
+    background-color: #555;
+}
+
+
+.sexto {
+    color: #fff;
+    background-image: linear-gradient(to right, rgb(18, 231, 28), rgb(112, 230, 101), rgb(0, 255, 0));
+    border-radius: 8px;
+    font-weight: medium;
+    font-size: 1rem; 
+    padding: 12px 30px; 
+    text-align: center;
+    outline: none;
+}
+
+.sexto:hover,
+.sexto:focus {
+    background-image: linear-gradient(to bottom right,rgb(18, 231, 28), rgb(112, 230, 101), rgb(0, 255, 0));
+}

@@ -1,0 +1,32 @@
+<section class="py-5 text-center container">
+  <div class="row py-lg-5">
+    <div class="col-lg-6 col-md-8 mx-auto">
+      <h1 class="fw-light">Bibliotecas disponíveis</h1>
+      <p class="lead text-muted">Selecione a biblioteca que deseja usar.</p>
+    </div>
+  </div>
+</section>
+  <div class="container">
+    <div class="d-flex flex-wrap ">
+      <div *ngFor="let bibio of libraries" class="p-1">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h2>{{bibio.name|uppercase}}</h2>
+            <p class="card-text">{{bibio.address}}</p>
+            <p class="card-text">{{bibio.openDays}}</p>
+            <p class="text-muted" >Aberta das {{bibio.openTime}} até {{bibio.closeTime}}.</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <a *ngIf="bibio.open" (click)="goToBibiloteca(bibio.id)"><button *ngIf="bibio.open" type="button" class="btn btn-sm btn-outline-secondary primeiro">Selecionar <svg class="arrow-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                </svg></button> </a>
+                <button *ngIf="!bibio.open" type="button" disabled class="btn btn-sm btn-outline-secondary btn-warning">Selecionar</button>
+              </div>
+              <small *ngIf="bibio.open" class="text-muted">Aberta</small>
+              <small *ngIf="!bibio.open" class="text-muted">Fechada</small>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>

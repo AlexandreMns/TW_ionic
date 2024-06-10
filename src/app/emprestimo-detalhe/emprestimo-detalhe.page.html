@@ -1,0 +1,38 @@
+<div class="container">
+    <div class="row mb-3">
+      <div class="col-md-9 themed-grid-col" >
+        <h2>{{biblioteca.name}}</h2>
+        <h6>{{biblioteca.address}}</h6>
+        <p *ngIf="biblioteca.open" class="text-muted">{{biblioteca.openStatement + " "+biblioteca.openDays}}</p>
+        <button type="button" class="btn btn-sm btn-outline-secondary voltar-atras" (click)="goToBibiloteca()"><span style="font-size: 20px;">&laquo;</span> Voltar à Biblioteca</button>
+        <input type="text" [(ngModel)]="selectedUser" class="input-livro" list="userOptions" placeholder="Digite seu nome">
+        <datalist id="userOptions">
+          <option *ngFor="let option of options" [value]="option.label">{{ option.label }}</option>
+        </datalist>
+        <button (click)="initUserCheckout(userId)" (click)="updateUser()"  value="Submit" class="btn btn-primary" style="width: 140px; margin-bottom: 3px; margin-left: 3px;">Guardar dados</button>
+
+        <h4 style="margin-top: 80px;">{{ "Título: "+ livro.title}}</h4>
+        <p>{{livro.byStatement}}</p>
+        <img [src]='getImg(livro, 2)' alt="Capa do livro" class="img-thumbnail">
+        <p style="text-decoration: underline; font-style: italic;">{{ "Isbn: "+livro.isbn }}</p>
+        <p>{{livro.description}}</p>
+        <p>Número de páginas {{livro.numberOfPages}}</p>
+        <li *ngFor="let authors of livro.authors">
+            <p>{{"Autor: "+authors.name}}</p>
+            <p>Date de nascimento:  {{authors.birthDate | date }}</p>
+        </li>
+        <p>Publicado em {{livro.publishDate | date}}</p>
+        <div *ngFor="let livros of livros">
+          <div *ngIf="livros.isbn == livro.isbn">
+            <p *ngIf="livros.stock != 0" class="text-muted">Em stock: {{livros.stock}}</p>
+          <p *ngIf="livros.stock == 0" class="text-muted">Fora de stock</p>
+          </div>
+        </div>
+        <button type="button" class="btn btn-sm btn-outline-secondary sexto" (click)="goToConfirmarEmprestimo()">Confirmar empréstimo</button>
+      </div>
+      <!-- Coluna lateral com seleção de biblioteca -->
+      <div class="col-md-3 themed-grid-col">
+        <seleciona-biblioteca (updateBibioteca)="getBiblioId($event)"></seleciona-biblioteca>
+      </div>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+
+
+
+<div class="container">
+  <div class="row mb-4">
+    <div class="col-md-12 themed-grid-col">
+      <h1>{{ biblioteca.name }}</h1>
+      <h6>{{ biblioteca.address }}</h6>
+      <p *ngIf="biblioteca.open" class="text-muted">{{ biblioteca.openStatement + " " + biblioteca.openDays }}</p>
+      <p *ngIf="biblioteca.open" class="text-muted">Estado aberta</p>
+      <p *ngIf="!biblioteca.open" class="text-muted">Estado fechada</p>
+      <button *ngIf="biblioteca.open" type="button" class="btn btn-sm btn-outline-secondary primeiro" (click)="goToRequisitarLivro()" >Livros requisitados</button>
+      <button type="button" class="btn btn-sm btn-outline-secondary primeiro" (click)="goToAdicionarLivro()" style="margin-left: 16px;" >Adicionar Livro</button>
+      <div>
+        <button type="button" class="btn btn-sm btn-outline-secondary ultimo" (click)="goToEmprestimoLivroDevolvidos()">Livros por devolver</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary ultimo" (click)="goToEmprestimoLivroHistorico()" style="margin-left: 16px;">Livros devolvidos</button>
+        <input #box type="text" class="input-livro" (keyup.enter)="onEnter(box.value)" name="searchTerm" placeholder="Digite sua pesquisa" style="margin-left: 873px;">
+        <button (click)="goToMotorPesquisa()"  type="submit" value="Submit" class="btn btn-primary" style="width: 120px; margin-bottom: 3px; margin-left: 3px;">Pesquisar</button>
+      
+      <div class="row">
+        <ng-container *ngFor="let livro of livros; let i = index;">
+          <div class="col-md-4 mb-3">
+            <div class="card">
+              <div class="card-body text-center">
+                <div class="italico">
+                <p *ngIf="livro.stock != 0" class="text-muted" style="font-weight: bold;">Em stock: {{ livro.stock }}</p>
+                <p *ngIf="livro.stock == 0" class="text-muted">Fora de stock</p>
+                <p></p>
+              </div>
+              <div class="container" style="height: 100px;">
+                <h3>{{ "Título: " + livro.book.title }}</h3>
+              </div>
+                <img [src]="getImg(livro, 1)" alt="Capa do livro" class="img-thumbnail" style="height: 280px;">
+                <p>{{ livro.book.byStatement }} publicado em {{livro.book.publishDate}}</p>
+                <button type="button" class="btn btn-sm btn-outline-secondary segundo" (click)="goToDetalhes(livro.isbn)" >Detalhes do livro</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary segundo" (click)="getRequisitarLivro(livro)">Requisitar livro</button>
+              </div>
+            </div>
+          </div>
+  
+          <div *ngIf="(i + 1) % 3 === 0" class="clearfix"></div>
+        </ng-container>
+      </div>
+    </div>
+    <div class="col-md-12 themed-grid-col">
+      <div class="d-flex flex-wrap ">
+      <seleciona-biblioteca (updateBibioteca)="getBiblioId($event)"></seleciona-biblioteca>
+    </div>
+    </div>
+  </div>
+</div>
+

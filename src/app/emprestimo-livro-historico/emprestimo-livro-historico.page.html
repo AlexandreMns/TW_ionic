@@ -1,0 +1,41 @@
+<div class="container">
+  
+  <div class="row mb-3">
+      <div class="col-md-12 themed-grid-col">
+          <h2>{{biblioteca.name}}</h2>
+          <h6>{{biblioteca.address}}</h6>
+          <p *ngIf="biblioteca.open" class="text-muted">{{biblioteca.openStatement + " "+biblioteca.openDays}}</p>
+          <button type="button" class="btn btn-sm btn-outline-secondary voltar-atras" (click)="goToBibiloteca()"><span style="font-size: 20px;">&laquo;</span> Voltar à Biblioteca</button>
+          <input type="text" class="input-livro" [(ngModel)]="selectedUser" list="userOptions" placeholder="Digite seu nome">
+          <datalist id="userOptions">
+              <option *ngFor="let option of options" [value]="option.label">{{ option.label }}</option>
+          </datalist>
+          <button (click)="initUserCheckout(userId)" (click)="updateUser()" type="submit" value="Submit" class="btn btn-primary" style="width: 150px; margin-bottom: 3px; margin-left: 1px;">Pesquisar</button>
+
+          <div class="row">
+              <ng-container *ngFor="let user of userCheckout; let i = index">
+                  <div class="col-md-3">
+                      <div class="card mb-3" style="margin-top: 50px;">
+                          <div class="card-body">
+                              <p class="card-text">{{user.libraryAdress}}</p>
+                              <p class="card-text" style="text-decoration: underline; font-style: italic;">{{user.book.isbn}}</p>
+                              <h4 class="card-text">{{user.book.title}}</h4>
+                              <img [src]="getImg(user.book, 1)" class="card-img-top" style="height: 400px;">
+                              <p class="card-text">{{user.libraryName}}</p>
+                              <p class="card-text">{{user.userId}}</p>
+                              <p class="card-text" style="font-weight: bold; font-style: italic;">{{formatarTimestamp(user.updateTimestamp)}}</p>
+                              <button type="button" class="btn btn-sm btn-outline-secondary segundo" (click)="goToDetalhes(user.book.isbn)">Detalhes do livro</button>
+                          </div>
+                      </div>
+                  </div>
+                 
+                  <div class="w-100" *ngIf="(i + 1) % 4 === 0"></div>
+              </ng-container>
+          </div>
+      </div>
+      <!-- Coluna lateral com seleção de biblioteca -->
+      <div class="col-md-12 themed-grid-col">
+          <seleciona-biblioteca (updateBibioteca)="getBiblioId($event)"></seleciona-biblioteca>
+      </div>
+  </div>
+</div>

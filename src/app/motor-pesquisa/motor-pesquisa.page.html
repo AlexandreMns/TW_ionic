@@ -1,0 +1,34 @@
+<div class="container">
+  <div class="row mb-3">
+    <div class="col-md-12 themed-grid-col">
+      <h2>{{biblioteca.name}}</h2>
+      <h6>{{biblioteca.address}}</h6>
+      <p *ngIf="biblioteca.open" class="text-muted">{{biblioteca.openStatement + " "+biblioteca.openDays}}</p>
+      <button type="button" class="btn btn-sm btn-outline-secondary voltar-atras" (click)="goToBibiloteca()"><span style="font-size: 20px;">&laquo;</span> Voltar à Biblioteca</button>
+      <h5 class="col-md-12" style="margin-top: 30px;">O resultado da sua pesquisa:</h5>
+      <!-- Início da lista de livros -->
+      <div class="row">
+        
+        <div class="col-3 text-center" *ngFor="let livros of getLivoPesquisado()">
+          
+          <div class="custom-card">
+            <img [src]="getImg(livros, 1)" alt="Capa do livro" class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title">{{ livros.title }}</h5>
+              <p class="card-text" style="text-decoration: underline; font-style: italic;">{{ "Isbn: "+ livros.isbn }}</p>
+              <p class="card-text">{{ livros.byStatement }}</p>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Fim da lista de livros -->
+
+    </div>
+    
+    <!-- Coluna lateral com seleção de biblioteca -->
+    <div class="col-md-12 themed-grid-col">
+      <seleciona-biblioteca (updateBibioteca)="getBiblioId($event)"></seleciona-biblioteca>
+    </div>
+  </div>
+</div>

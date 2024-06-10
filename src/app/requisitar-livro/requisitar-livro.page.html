@@ -1,0 +1,33 @@
+<div class="container">
+    <div class="row mb-3">
+      <div class="col-md-12 themed-grid-col">
+        <h2>{{biblioteca.name}}</h2>
+        <h6>{{biblioteca.address}}</h6>
+        <p *ngIf="biblioteca.open" class="text-muted">{{biblioteca.openStatement + " "+biblioteca.openDays}}</p>
+        <button type="button" class="btn btn-sm btn-outline-secondary voltar-atras" (click)="goToBibiloteca()">
+          <span style="font-size: 20px;">&laquo;</span> Voltar à Biblioteca
+        </button>
+        <div class="row">
+          <div *ngFor="let livros of getRequiredBook()" class="col-md-3">
+            
+              <div class="card-body">
+                <img [src]="getImg(livros, 1)" alt="Capa do livro" class="card-img-top" style="height: 400px;">
+                <h5 class="card-title" style="height: 65px; margin-top: 5px;">{{ "Título: "+ livros.title}}</h5>
+                <p style="margin-top: 5.5px;">Isbn: <u style="text-decoration: underline; font-size: 16px;">{{livros.isbn}}</u></p>
+                <p class="card-text">{{livros.byStatement}}</p>
+                <p *ngIf="getDataRequesitados() > currentDate">O prazo de entrega é: <u style=" font-weight: bolder;">{{ getDataRequesitados() | date:'longDate'}}</u></p>
+                <p *ngIf="getDataRequesitados() < currentDate">Passou da data de entrega esperada: <u style=" font-weight: bolder; color: red;">{{ getDataRequesitados() | date:'longDate'}}, por favor entregue quando assim for possivel</u></p>
+              </div>
+            </div>
+          </div>
+        
+      </div>
+            
+        
+      <!-- Coluna lateral com seleção de biblioteca -->
+      <div class="col-md-12 themed-grid-col">
+        <seleciona-biblioteca (updateBibioteca)="getBiblioId($event)"></seleciona-biblioteca>
+      </div>
+    </div>
+</div>
+
