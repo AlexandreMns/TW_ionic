@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>>Book search</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <h1 class="fw-light">Bibliotecas</h1>
+  <p class="lead text-muted">Selecione a biblioteca que deseja usar.</p>
+
+  <ion-grid>
+    <ion-row>
+      <ion-card *ngFor="let library of libraries">
+        <ion-card-content>
+          <ion-row>
+            <ion-col>
+              <img src="../../assets/icon/book_question_image.svg" width="66" height="66" />
+            </ion-col>
+          </ion-row>
+        </ion-card-content>
+        <ion-card-header>
+          <ion-card-subtitle>{{library.name|uppercase}}</ion-card-subtitle>
+          <ion-card-title>{{library.address}}</ion-card-title>
+          <p class="card-text">{{library.openDays}}</p>
+          <p class="text-muted">Aberta das {{library.openTime}} até {{library.closeTime}}.</p>
+            <strong *ngIf="library.open" class="text-muted">Aberta</strong>
+            <strong *ngIf="!library.open" class="text-muted">Fechada</strong>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-button *ngIf="library.open" [routerLink]="['/library']" [queryParams]="{libraryId:library.id}" expand="full">Ver
+            livros</ion-button>
+          <ion-button *ngIf="!library.open" disabled [routerLink]="['/library']" [queryParams]="{libraryId:library.id}" expand="full">Ver
+            livros</ion-button>
+        </ion-card-content>
+      </ion-card>
+    </ion-row>
+  </ion-grid>
+</ion-content>

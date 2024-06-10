@@ -1,0 +1,7 @@
+{
+  "name": "book-searcher",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

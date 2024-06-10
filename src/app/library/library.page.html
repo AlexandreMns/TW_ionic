@@ -1,0 +1,30 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>library</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <div class="container">
+
+    <div class="row mb-3">
+      <div class="col-md-9 themed-grid-col">
+        <h2>{{library.name}}</h2>
+        <p *ngIf="library.open" class="text-muted">{{library.openStatement}}</p>
+        <p *ngIf="library.open" class="text-muted">Estado aberta</p>
+        <p *ngIf="!library.open" class="text-muted">Estado fechada</p>
+        <button type="button" class="btn btn-sm btn-outline-secondary" [disabled]="!library.open">Ver livros
+          library</button>
+        <button *ngIf="library.open" type="button" class="btn btn-sm btn-outline-secondary" disabled>Ver livros
+          utilizador</button>
+        <p class="text-muted">{{library | json}}</p>
+        <p>userId: {{userId}}</p>
+      </div>
+    </div>
+  </div>
+
+</ion-content>

@@ -1,0 +1,15 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="medium">
+    <ion-title><strong>Biblioteca Client</strong></ion-title>
+    <ion-button slot="end" [routerLink]="['']">
+      <ion-icon slot="icon-only" name="home"></ion-icon>
+    </ion-button>
+    <ion-select [(ngModel)]="selectedUser" (change)="updateUser()">
+      <ion-select-option *ngFor="let option of options" [value]="option.value">{{ option.label }}</ion-select-option>
+    </ion-select>
+  </ion-toolbar>
+</ion-header>
+
+<ion-app>
+  <ion-router-outlet></ion-router-outlet>
+</ion-app>
