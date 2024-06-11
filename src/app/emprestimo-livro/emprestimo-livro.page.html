@@ -1,40 +1,53 @@
-<div class="container">
-  <div class="row mb-3">
-    <div class="col-md-12 themed-grid-col">
-      <h2>{{biblioteca.name}}</h2>
-      <h6>{{biblioteca.address}}</h6>
-      <p *ngIf="biblioteca.open" class="text-muted">{{biblioteca.openStatement + " "+biblioteca.openDays}}</p>
-      <button type="button" class="btn btn-sm btn-outline-secondary voltar-atras" (click)="goToBibiloteca()"><span style="font-size: 20px;">&laquo;</span> Voltar à Biblioteca</button>
-      <input type="text" class="input-livro" [(ngModel)]="selectedUser" list="userOptions" placeholder="Digite seu nome">
-      <datalist id="userOptions">
-        <option *ngFor="let option of options" [value]="option.label">{{ option.label }}</option>
-      </datalist>
-      <button (click)="initUserCheckout(userId); updateUser()" type="submit" value="Submit" class="btn btn-primary" style="width: 150px; margin-bottom: 3px; margin-left: 1px;">Pesquisar</button>
-    </div>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ biblioteca.name }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-grid>
+    <ion-row class="ion-margin-bottom">
+      <ion-col size="12">
+        <h2>{{ biblioteca.name }}</h2>
+        <h6>{{ biblioteca.address }}</h6>
+        <p *ngIf="biblioteca.open" class="text-muted">{{ biblioteca.openStatement + " " + biblioteca.openDays }}</p>
+        <ion-button expand="block" fill="outline" (click)="goToBibiloteca()">
+          <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+          Voltar à Biblioteca
+        </ion-button>
+        <ion-item>
+          <ion-input type="text" [(ngModel)]="selectedUser" placeholder="Digite seu nome"></ion-input>
+          <datalist id="userOptions">
+            <option *ngFor="let option of options" [value]="option.label">{{ option.label }}</option>
+          </datalist>
+        </ion-item>
+        <ion-button expand="block" (click)="initUserCheckout(userId); updateUser()" type="submit">Pesquisar</ion-button>
+      </ion-col>
+    </ion-row>
 
     <!-- Loop para exibir os cards -->
-    <ng-container *ngFor="let user of userCheckout; let i = index">
-      <!-- Exibe os cards -->
-      <div class="col-md-3 themed-grid-col text-center" style="margin-top: 80px;">
-        <!-- Conteúdo do card -->
-        <p style="text-decoration: underline; font-style: italic;">{{user.book.isbn}}</p>
-        <h4 style="height: 90px;">{{user.book.title}}</h4>
-        <img [src]="getImg(user.book, 1)" style="height: 270px;">
-        <p>{{user.libraryName}}</p>
-        <p>{{user.userId}}</p>
-        <p>{{formatarTimestamp(user.updateTimestamp)}}</p>
-        <button type="button" class="btn btn-sm btn-outline-secondary segundo" (click)="goToDetalhes(user.book.isbn)">Detalhes do livro</button>
-      </div>
+    <ion-row>
+      <ion-col size="12" size-md="3" *ngFor="let user of userCheckout; let i = index" class="ion-text-center ion-margin-top">
+        <ion-card>
+          <ion-card-content>
+            <p style="text-decoration: underline; font-style: italic;">{{ user.book.isbn }}</p>
+            <h4 style="height: 90px;">{{ user.book.title }}</h4>
+            <ion-img [src]="getImg(user.book, 1)" style="height: 270px;"></ion-img>
+            <p>{{ user.libraryName }}</p>
+            <p>{{ user.userId }}</p>
+            <p>{{ formatarTimestamp(user.updateTimestamp) }}</p>
+            <ion-button expand="block" fill="outline" (click)="goToDetalhes(user.book.isbn)">Detalhes do livro</ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="12" *ngIf="(i + 1) % 4 === 0"></ion-col>
+    </ion-row>
 
-      <!-- Fecha a linha a cada 4 cards -->
-      <div class="w-100" *ngIf="(i + 1) % 4 === 0"></div>
-    </ng-container>
-  </div>
-
-  <!-- Coluna lateral com seleção de biblioteca -->
-  <div class="row">
-    <div class="col-md-12 themed-grid-col">
-      <seleciona-biblioteca (updateBibioteca)="getBiblioId($event)"></seleciona-biblioteca>
-    </div>
-  </div>
-</div>
+    <!-- Coluna lateral com seleção de biblioteca -->
+    <ion-row>
+      <ion-col size="12">
+        <seleciona-biblioteca (updateBibioteca)="getBiblioId($event)"></seleciona-biblioteca>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

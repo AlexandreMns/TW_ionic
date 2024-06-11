@@ -1,55 +1,77 @@
-<div class="container">
-    <div class="row mb-3">
-      <div class="col-md-12 themed-grid-col" >
-        <h2>{{biblioteca.name}}</h2>
-        <h6>{{biblioteca.address}}</h6>
-        <p *ngIf="biblioteca.open" class="text-muted">{{biblioteca.openStatement + " "+biblioteca.openDays}}</p>
-        <button type="button" class="btn btn-sm btn-outline-secondary voltar-atras" (click)="goToBibiloteca()"><span style="font-size: 20px;">&laquo;</span> Voltar à Biblioteca</button>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ biblioteca.name }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-grid>
+    <ion-row class="ion-margin-bottom">
+      <ion-col size="12" size-md="12">
+        <h2>{{ biblioteca.name }}</h2>
+        <h6>{{ biblioteca.address }}</h6>
+        <p *ngIf="biblioteca.open" class="text-muted">{{ biblioteca.openStatement + " " + biblioteca.openDays }}</p>
+        <ion-button expand="block" fill="outline" (click)="goToBibiloteca()">
+          <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+          Voltar à Biblioteca
+        </ion-button>
         <p style="margin-top: 5.5px;">Isbn: <u style="text-decoration: underline; font-size: 16px;">{{ livro.isbn }}</u></p>
-        <h2>{{ "Título: "+ livro.title}}</h2>
-        <div class="row">
-          <div class="col-md-3">
-        <img [src]='getImg(livro, 2)' alt="Capa do livro" class="img-thumbnail">
-          </div>
-          <div class="col-md-9">
-        <p style="font-style: italic; font-size: 17px;">{{livro.byStatement}}</p>
-        <p style="font-size: 16px;">{{livro.description}}</p>
-        <span *ngFor="let author of livro.authors">
-          <h6 *ngIf="author.name" style="font-size: 18px;">Nome: {{ author.name }}</h6>
-          <p *ngIf="author.bio" style="font-size: 14px;">Bibliografia: {{ author.bio }}</p>
-          <p *ngIf="author.deathDate">Data da morte de {{author.name}}: {{ author.deathDate }}</p>
-          <p *ngIf="author.birthDate">Data de nascimento de {{author.name}}: {{ author.birthDate }}</p>
-          <p *ngIf="author.id">ID: <u>{{ author.id }}</u></p>
-          <li *ngIf="author.alternateName && author.alternateName.length > 0">
-              <p>Alternate Names:</p>
-              <ul>
-              <li *ngFor="let name of author.alternateName">
-                  <p>{{ name }}</p>
-              </li>
-              </ul>
-          </li>
-      </span>
-      </div>
-        <p>Número de páginas {{livro.numberOfPages}}</p>
-        <p>Publicado em {{livro.publishDate | date}}</p>
-        <p>{{livro.subjectsPlaces | json}}</p>
-        <p>{{livro.subjectsPeople | json}}</p>
-        <p>{{livro.subjectsTimes | json}}</p>
-        <h5>Tópicos:</h5>
-        <p>{{livro.subjects | json}}</p> 
-        <div *ngFor="let livros of livros">
-          <div *ngIf="livros.isbn == livro.isbn">
-            <p *ngIf="livros.stock != 0" class="text-muted" style="font-weight: bolder;">Em stock: {{livros.stock}}</p>
-          <p *ngIf="livros.stock == 0" class="text-muted">Fora de stock</p>
-          <button type="button" class="btn btn-sm btn-outline-secondary quinto" (click)="getRequisitarLivro(livros)">Requisitar livro</button>
-          <button type="button" class="btn btn-sm btn-outline-secondary quarto" (click)="removerLivro(livro.isbn)" style="margin-left: 10px;">Remover Livro</button>
-          <button type="button" class="btn btn-sm btn-outline-secondary sexto" (click)="goToEmprestimoDetalhe(livro.isbn)" style="margin-left: 686px;">Detalhe de emprestimo</button>
-          </div>
-        </div>
-      </div>
+        <h2>{{ "Título: "+ livro.title }}</h2>
+        <ion-row>
+          <ion-col size="12" size-md="3">
+            <ion-img [src]="getImg(livro, 2)" alt="Capa do livro" class="img-thumbnail"></ion-img>
+          </ion-col>
+          <ion-col size="12" size-md="9">
+            <p style="font-style: italic; font-size: 17px;">{{ livro.byStatement }}</p>
+            <p style="font-size: 16px;">{{ livro.description }}</p>
+            <ion-list *ngFor="let author of livro.authors">
+              <ion-item *ngIf="author.name">
+                <ion-label>
+                  <h6 style="font-size: 18px;">Nome: {{ author.name }}</h6>
+                  <p *ngIf="author.bio" style="font-size: 14px;">Bibliografia: {{ author.bio }}</p>
+                  <p *ngIf="author.deathDate">Data da morte de {{ author.name }}: {{ author.deathDate }}</p>
+                  <p *ngIf="author.birthDate">Data de nascimento de {{ author.name }}: {{ author.birthDate }}</p>
+                  <p *ngIf="author.id">ID: <u>{{ author.id }}</u></p>
+                  <ion-list *ngIf="author.alternateName && author.alternateName.length > 0">
+                    <ion-item>
+                      <ion-label>
+                        <p>Alternate Names:</p>
+                        <ion-list>
+                          <ion-item *ngFor="let name of author.alternateName">
+                            <p>{{ name }}</p>
+                          </ion-item>
+                        </ion-list>
+                      </ion-label>
+                    </ion-item>
+                  </ion-list>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+            <p>Número de páginas {{ livro.numberOfPages }}</p>
+            <p>Publicado em {{ livro.publishDate | date }}</p>
+            <p>{{ livro.subjectsPlaces | json }}</p>
+            <p>{{ livro.subjectsPeople | json }}</p>
+            <p>{{ livro.subjectsTimes | json }}</p>
+            <h5>Tópicos:</h5>
+            <p>{{ livro.subjects | json }}</p>
+            <ion-row>
+              <ion-col size="12" *ngFor="let livros of livros">
+                <ion-item *ngIf="livros.isbn == livro.isbn">
+                  <p *ngIf="livros.stock != 0" class="text-muted" style="font-weight: bolder;">Em stock: {{ livros.stock }}</p>
+                  <p *ngIf="livros.stock == 0" class="text-muted">Fora de stock</p>
+                  <ion-button size="small" fill="outline" (click)="getRequisitarLivro(livros)">Requisitar livro</ion-button>
+                  <ion-button size="small" fill="outline" (click)="removerLivro(livro.isbn)" style="margin-left: 10px;">Remover Livro</ion-button>
+                  <ion-button size="small" fill="outline" (click)="goToEmprestimoDetalhe(livro.isbn)" style="margin-left: 686px;">Detalhe de emprestimo</ion-button>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-col>
       <!-- Coluna lateral com seleção de biblioteca -->
-      <div class="col-md-12 themed-grid-col" style="margin-top: 130px;">
+      <ion-col size="12" size-md="12" class="ion-margin-top">
         <seleciona-biblioteca (updateBibioteca)="getBiblioId($event)"></seleciona-biblioteca>
-      </div>
-    </div>
-</div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

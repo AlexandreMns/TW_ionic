@@ -1,18 +1,30 @@
-<div class="container">
-    
-      <div class="row mb-3">
-        <div class="col-md-9 themed-grid-col">
-          <h2>{{biblioteca.name}}</h2>
-          <h6>{{biblioteca.address}}</h6>
-          <p *ngIf="biblioteca.open" class="text-muted">{{biblioteca.openStatement + " "+biblioteca.openDays}}</p>
-          <button type="button" class="btn btn-sm btn-outline-secondary voltar-atras" (click)="goToBibiloteca()"><span style="font-size: 20px;">&laquo;</span> Voltar à Biblioteca</button>
-          <p>{{biblioteca.name}}</p>
-          <h5>Livro emprestado: {{livro.title}}</h5>
-          <img [src]='getImg(livro, 1)' alt="Capa do livro" class="img-thumbnail">
-        </div>
-        <!-- Coluna lateral com seleção de biblioteca -->
-        <div class="col-md-3 themed-grid-col">
-          <seleciona-biblioteca (updateBibioteca)="getBiblioId($event)"></seleciona-biblioteca>
-        </div>
-      </div>
-  </div>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ biblioteca.name }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-grid>
+    <ion-row class="ion-margin-bottom">
+      <ion-col size="12" size-md="9">
+        <h2>{{ biblioteca.name }}</h2>
+        <h6>{{ biblioteca.address }}</h6>
+        <p *ngIf="biblioteca.open" class="text-muted">{{ biblioteca.openStatement + " " + biblioteca.openDays }}</p>
+        <ion-button expand="block" fill="outline" (click)="goToBibiloteca()">
+          <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+          Voltar à Biblioteca
+        </ion-button>
+        <p>{{ biblioteca.name }}</p>
+        <h5>Livro emprestado: {{ livro.title }}</h5>
+        <ion-img [src]="getImg(livro, 1)" alt="Capa do livro" class="img-thumbnail"></ion-img>
+      </ion-col>
+      
+      <!-- Coluna lateral com seleção de biblioteca -->
+      <ion-col size="12" size-md="3">
+        <seleciona-biblioteca (updateBibioteca)="getBiblioId($event)"></seleciona-biblioteca>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
