@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { Output, EventEmitter } from '@angular/core';
 import { SelecionaBibliotecaComponent } from '../seleciona-biblioteca/seleciona-biblioteca.page';
 import { Livro } from '../models/Livro';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'app-motor-pesquisa',
@@ -18,6 +19,7 @@ import { Livro } from '../models/Livro';
     CommonModule,
     RouterModule,
     SelecionaBibliotecaComponent,
+    IonicModule
   ],
   templateUrl: './motor-pesquisa.page.html',
   styleUrl: './motor-pesquisa.page.scss'

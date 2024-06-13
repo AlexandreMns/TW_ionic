@@ -16,14 +16,14 @@
               <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
               Voltar à Biblioteca
             </ion-button>
-            <ion-input class="input-livro" #box (keyup.enter)="onEnter(box.value); sensorEnter(true)" placeholder="Insira o ISBN do livro"></ion-input>
-            <p *ngIf="mensagemErro == 'ISBN inválido'">{{ mensagemErro }}</p>
-            <ng-container *ngIf="mensagemErro == 'ISBN válido'">
+            <ion-input class="input-livro" #box [(ngModel)]="boxValue" placeholder="Insira o ISBN do livro"></ion-input>
+            <p *ngIf="mensagemErro === 'ISBN inválido'">{{ mensagemErro }}</p>
+            <ng-container *ngIf="mensagemErro === 'ISBN válido'">
               <p>{{ "Isbn: "+livro.isbn }}</p>
               <p>{{ "Título: "+ livro.title }}</p>
               <p>{{ livro.byStatement }}</p>
-              <ion-img *ngIf="getImg(livro, 2) == null" [src]='getImg(livro, 2)' alt="Capa do livro" class="img-thumbnail"></ion-img>
-              <ion-img *ngIf="getImg(livro, 2) != null" [src]='getImg(livro, 2)' alt="Capa do livro" class="img-thumbnail"></ion-img>
+              <ion-img *ngIf="getImg(livro, 2) === null" [src]='getImg(livro, 2)' alt="Capa do livro" class="img-thumbnail"></ion-img>
+              <ion-img *ngIf="getImg(livro, 2) !== null" [src]='getImg(livro, 2)' alt="Capa do livro" class="img-thumbnail"></ion-img>
               <p>{{ livro.description }}</p>
               <ng-container *ngIf="livro.authors && livro.authors.length > 0">
                 <ng-container *ngFor="let author of livro.authors">
@@ -48,7 +48,8 @@
               </ng-container>
               <p *ngIf="x">Número de páginas: {{ livro.numberOfPages }}</p>
               <ion-input type="number" placeholder="Digite o Stock" name="stock" ngModel></ion-input>
-              <ion-button (click)="submitStock()">Submit</ion-button>
+              <!--(click)="submitStock()"-->
+              <ion-button>Submit</ion-button>
             </ng-container>
             <ion-button size="small" fill="outline" class="terceiro" (click)="goToBibiloteca()">Adicionar {{ livro.title }} à biblioteca</ion-button>
           </div>

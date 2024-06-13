@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { Output, EventEmitter } from '@angular/core';
 import { SelecionaBibliotecaComponent } from '../seleciona-biblioteca/seleciona-biblioteca.page';
 import { Livro } from '../models/Livro';
+import { IonicModule } from '@ionic/angular';
 import { NgForm, FormsModule } from '@angular/forms';
 
 @Component({
@@ -19,23 +20,26 @@ import { NgForm, FormsModule } from '@angular/forms';
     CommonModule,
     RouterModule,
     SelecionaBibliotecaComponent,
-    FormsModule
+    FormsModule,
+    IonicModule
   ],
   templateUrl: './adicionar-livro.page.html',
-  styleUrl: './adicionar-livro.page.scss'
+   styleUrl: './adicionar-livro.page.scss'
 })
 export class AdicionarLivroComponent implements OnInit{
   livros: LivroCompleto[] = [];
   livro: Livro;
   imagem: Cover;
   x: boolean = false;
+  boxValue: string = '';
   stockIsbn: number;
   mensagemErro: string = ''; 
   biblioteca:Biblioteca;
   livroISBN: string = '';
   @Output() updateLivro = new EventEmitter <string> ();
   userId:string='';
-  @Input('selectedLivroId') livroId='';
+  //@Input('selectedLivroId') livroId='';
+  selectedLivroId: string = '';
 
   constructor(private bibliotecaService: BibliotecaServiceService,private route:ActivatedRoute, private appService: AppService, private router: Router) {
     this.livro = {} as Livro;
@@ -62,7 +66,7 @@ export class AdicionarLivroComponent implements OnInit{
       return this.x;
     }
   }
-  onEnter(ISBN: string) {
+  onEnter(ISBN: string  ) {
       if (this.isValidISBN(ISBN)) {
       this.livroISBN = ISBN;
       this.initLivro(this.livroISBN);
@@ -137,6 +141,19 @@ export class AdicionarLivroComponent implements OnInit{
   getImg(livro: Livro, tamanho: number){
     return this.bibliotecaService.getImagens(livro, tamanho);
   }
+
+
+  // Method to handle button click (if needed)
+  handleClick() {
+    console.log('Box Value:', this.boxValue);
+  }
+
+
+  selectBook(id: string) {
+    this.selectedLivroId = id;
+  }
+
+  
 
   /*getStockISBN(isbn: string): number {
     const livro = this.livros.find((livro: LivroCompleto) => livro.isbn === isbn);

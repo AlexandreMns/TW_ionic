@@ -18,7 +18,7 @@
         <ion-button expand="block" fill="outline" (click)="goToEmprestimoLivroDevolvidos()">Livros por devolver</ion-button>
         <ion-button expand="block" fill="outline" (click)="goToEmprestimoLivroHistorico()" class="ion-margin-start">Livros devolvidos</ion-button>
         <ion-item lines="none" class="ion-margin-top">
-          <ion-input #box type="text" placeholder="Digite sua pesquisa" (keyup.enter)="onEnter(box.value)"></ion-input>
+          <ion-input #box type="text" placeholder="Digite sua pesquisa" [(ngModel)]="boxValue"></ion-input>
           <ion-button (click)="goToMotorPesquisa()" type="submit">Pesquisar</ion-button>
         </ion-item>
       </ion-col>
@@ -29,8 +29,8 @@
         <ion-card>
           <ion-card-content class="ion-text-center">
             <div class="italico">
-              <p *ngIf="livro.stock != 0" class="text-muted" style="font-weight: bold;">Em stock: {{ livro.stock }}</p>
-              <p *ngIf="livro.stock == 0" class="text-muted">Fora de stock</p>
+              <p *ngIf="livro.stock !== 0" class="text-muted" style="font-weight: bold;">Em stock: {{ livro.stock }}</p>
+              <p *ngIf="livro.stock === 0" class="text-muted">Fora de stock</p>
             </div>
             <div style="height: 100px;">
               <h3>{{ "Título: " + livro.book.title }}</h3>

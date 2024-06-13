@@ -14,6 +14,7 @@ import { CheckedOutBook } from '../models/CheckedOutBook';
 import { RouterModule } from '@angular/router';
 import { SelecionaBibliotecaComponent } from '../seleciona-biblioteca/seleciona-biblioteca.page';
 import { Livro } from '../models/Livro';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'app-emprestimo-detalhe',
@@ -22,7 +23,8 @@ import { Livro } from '../models/Livro';
     CommonModule,
     RouterModule,
     SelecionaBibliotecaComponent,
-    FormsModule
+    FormsModule,
+    IonicModule
   ],
   templateUrl: './emprestimo-detalhe.page.html',
   styleUrl: './emprestimo-detalhe.page.scss'

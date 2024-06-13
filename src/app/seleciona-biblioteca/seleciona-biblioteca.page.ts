@@ -3,16 +3,18 @@ import { CommonModule } from '@angular/common';
 import { Biblioteca } from '../models/Biblioteca';
 import { BibliotecaServiceService } from '../biblioteca-service.service';
 import { Router, RouterModule } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'seleciona-biblioteca',
+  templateUrl: './seleciona-biblioteca.page.html',
+  styleUrl: './seleciona-biblioteca.page.scss',
   standalone: true,
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    IonicModule
   ],
-  templateUrl: './seleciona-biblioteca.page.html',
-  styleUrl: './seleciona-biblioteca.page.scss'
 })
 export class SelecionaBibliotecaComponent implements OnInit{
   libraries: Biblioteca[]=[];

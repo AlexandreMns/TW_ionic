@@ -11,6 +11,7 @@ import { Output, EventEmitter } from '@angular/core';
 import { SelecionaBibliotecaComponent } from '../seleciona-biblioteca/seleciona-biblioteca.page';
 import { Livro } from '../models/Livro';
 import { CheckedOutBook } from '../models/CheckedOutBook';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'app-requisitar-livro',
@@ -19,6 +20,7 @@ import { CheckedOutBook } from '../models/CheckedOutBook';
     CommonModule,
     RouterModule,
     SelecionaBibliotecaComponent,
+    IonicModule
   ],
   templateUrl: './requisitar-livro.page.html',
   styleUrl: './requisitar-livro.page.scss'

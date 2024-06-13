@@ -14,6 +14,7 @@ import { RouterModule } from '@angular/router';
 import { SelecionaBibliotecaComponent } from '../seleciona-biblioteca/seleciona-biblioteca.page';
 import { Livro } from '../models/Livro';
 import { Checkout } from '../models/Checkout';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'app-emprestimo-confirmacao',
@@ -22,6 +23,7 @@ import { Checkout } from '../models/Checkout';
     CommonModule,
     RouterModule,
     SelecionaBibliotecaComponent,
+    IonicModule
   ],
   templateUrl: './emprestimo-confirmacao.page.html',
   styleUrl: './emprestimo-confirmacao.page.scss'

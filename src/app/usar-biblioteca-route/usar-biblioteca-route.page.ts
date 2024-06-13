@@ -11,14 +11,18 @@ import { AppService } from '../app.service';
 import { LivroCompleto } from '../models/LivroCompleto';
 import { BookRequeste } from '../models/BookRequest';
 import { CheckedOutBook } from '../models/CheckedOutBook';
+import { IonicModule } from '@ionic/angular';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'usar-biblioteca-route',
+  selector: 'app-usar-biblioteca-route',
   standalone: true,
   imports: [
     CommonModule,
     RouterModule,
-    SelecionaBibliotecaComponent
+    SelecionaBibliotecaComponent,
+    IonicModule,
+    FormsModule
   ],
   templateUrl: './usar-biblioteca-route.page.html',
   styleUrl: './usar-biblioteca-route.page.scss'
@@ -33,8 +37,9 @@ export class UsarBibliotecaRouteComponent implements OnInit{
   livros: LivroCompleto[] = [];
   livro: Livro;
   userId:string='';
+  boxValue: string = '';
   userCheckout: CheckedOutBook[] = [];
-  @Input('selectedLibraryId') libraryId='';
+ // @Input('selectedLibraryId') libraryId='';
   @Output() updateBibioteca = new EventEmitter <string> ();
 
   constructor(private bibliotecaService: BibliotecaServiceService, private route:ActivatedRoute, private appService: AppService, private router: Router) {
@@ -93,6 +98,12 @@ export class UsarBibliotecaRouteComponent implements OnInit{
   getRequisitarLivro(livro: LivroCompleto){
     return this.bibliotecaService.requisitarLivro(livro);
   }
+
+  // Method to handle button click (if needed)
+  handleClick() {
+    console.log('Box Value:', this.boxValue);
+  }
+
 
   getBiblioId(id:string){
     this.bibliotecaService.getCurrentLibrary(id).subscribe(

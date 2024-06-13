@@ -15,6 +15,7 @@ import { RouterModule } from '@angular/router';
 import { SelecionaBibliotecaComponent } from '../seleciona-biblioteca/seleciona-biblioteca.page';
 import { Livro } from '../models/Livro';
 import { AppComponent } from '../app.component';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'app-emprestimo-livro',
@@ -24,14 +25,16 @@ import { AppComponent } from '../app.component';
     RouterModule,
     SelecionaBibliotecaComponent,
     AppComponent,
-    FormsModule
+    FormsModule,
+    IonicModule
   ],
-  templateUrl: './emprestimo-livro.page.html',
+  templateUrl: 'emprestimo-livro.page.html',
   styleUrl: './emprestimo-livro.page.scss'
 })
 export class EmprestimoLivroComponent implements OnInit{
   livros: LivroCompleto[] = [];
   biblioteca:Biblioteca;
+  i: number;
   userCheckout: CheckedOutBook[] = [];
   //userCheckoutHistory: CheckedOutBook[] = [];
   livro: Livro;
@@ -51,6 +54,7 @@ export class EmprestimoLivroComponent implements OnInit{
 
   constructor(private bibliotecaService: BibliotecaServiceService, private route:ActivatedRoute, private appService: AppService,private appComponent: AppComponent, private router: Router) {
     this.biblioteca = {} as Biblioteca;
+    this.i = 0;
     //this.user = {} as CheckedOutBook;
     this.mensagem = '';
     this.livro = {} as Livro;
