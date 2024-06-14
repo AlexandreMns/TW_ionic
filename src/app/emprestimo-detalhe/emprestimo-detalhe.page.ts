@@ -42,7 +42,7 @@ export class EmprestimoDetalheComponent implements OnInit{
     { label: 'Wonderful User', value: 'Wonderful User' },
     { label: 'TWAM', value: 'TWAM' },
   ];
-  @Input('selectedLivroId') livroId='';
+  //@Input('selectedLivroId') livroId='';
 
   constructor(private bibliotecaService: BibliotecaServiceService, private route:ActivatedRoute, private appService: AppService, private router: Router) {
     this.biblioteca = {} as Biblioteca;
@@ -61,14 +61,14 @@ export class EmprestimoDetalheComponent implements OnInit{
   }
 
   private carregaLivros() {
-    const id = this.route.snapshot.paramMap.get('biblioteca');
+    const id = this.route.snapshot.paramMap.get('libraryId');
     this.bibliotecaService.getLibraryBooks(id).subscribe(
       value => this.livros = <LivroCompleto[]>value
     );
   }
 
   private initBiblioteca() {
-    const id = this.route.snapshot.paramMap.get('biblioteca');
+    const id = this.route.snapshot.paramMap.get('libraryId');
     this.bibliotecaService.getCurrentLibrary(id).subscribe(
       value => this.biblioteca = <Biblioteca>value
     );
@@ -82,25 +82,25 @@ export class EmprestimoDetalheComponent implements OnInit{
   }
 
   goToBibiloteca(){
-    const biblioId = this.route.snapshot.paramMap.get('biblioteca');
+    const biblioId = this.route.snapshot.paramMap.get('libraryId');
     let url = '/biblio/' + biblioId;
     this.router.navigateByUrl(url);
   }
 
   goToRequisitarLivro(livroIsbn: any){
-    const biblioId = this.route.snapshot.paramMap.get('biblioteca');
+    const biblioId = this.route.snapshot.paramMap.get('libraryId');
     let url = '/biblio/' + biblioId + '/livro/' + livroIsbn+ '/requisitar';
     this.router.navigateByUrl(url);
   }
 
   goToMotorPesquisa(){
-    const biblioId = this.route.snapshot.paramMap.get('biblioteca');
+    const biblioId = this.route.snapshot.paramMap.get('libraryId');
     let url = '/biblio/' + biblioId + '/pesquisa';
     this.router.navigateByUrl(url);
   }
 
   goToConfirmarEmprestimo(){
-    const biblioId = this.route.snapshot.paramMap.get('biblioteca');
+    const biblioId = this.route.snapshot.paramMap.get('libraryId');
     let url = '/biblio/' + biblioId + '/emprestimo/livro/' + this.livro.isbn + '/confirmar';
     this.router.navigateByUrl(url);
     return this.userId;

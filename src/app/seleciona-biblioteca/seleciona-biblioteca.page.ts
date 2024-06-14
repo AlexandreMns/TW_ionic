@@ -6,7 +6,7 @@ import { Router, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 @Component({
-  selector: 'seleciona-biblioteca',
+  selector: 'app-seleciona-biblioteca',
   templateUrl: './seleciona-biblioteca.page.html',
   styleUrl: './seleciona-biblioteca.page.scss',
   standalone: true,
@@ -27,7 +27,7 @@ export class SelecionaBibliotecaComponent implements OnInit{
   }
 
   goToBibiloteca(biblioId: any){
-    let url = '/biblio/' + biblioId;
+    let url = '/library/' + biblioId;
     this.updateBibioteca.emit(biblioId);
     this.router.navigateByUrl(url);
   }

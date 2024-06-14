@@ -36,7 +36,7 @@ export class RequisitarLivroComponent implements OnInit{
   biblioteca:Biblioteca;
   @Output() updateLivro = new EventEmitter <string> ();
   userId:string='';
-  @Input('selectedLivroId') livroId='';
+  //@Input('selectedLivroId') livroId='';
 
   constructor(private bibliotecaService: BibliotecaServiceService, private route:ActivatedRoute, private appService: AppService, private router: Router) {
     this.livro = {} as Livro;
@@ -56,20 +56,20 @@ export class RequisitarLivroComponent implements OnInit{
   }
 
   goToDetalhes(livro: any){
-    const biblioId = this.route.snapshot.paramMap.get('biblioteca');
+    const biblioId = this.route.snapshot.paramMap.get('libraryId');
     let url = '/biblio/' + biblioId + '/livros/'+ livro;
     this.router.navigateByUrl(url);
   }
 
   private carregaLivros() {
-    const id = this.route.snapshot.paramMap.get('biblioteca');
+    const id = this.route.snapshot.paramMap.get('libraryId');
     this.bibliotecaService.getLibraryBooks(id).subscribe(
       value => this.livros = <LivroCompleto[]>value
     );
   }
 
   private initBiblioteca() {
-    const id = this.route.snapshot.paramMap.get('biblioteca');
+    const id = this.route.snapshot.paramMap.get('libraryId');
     this.bibliotecaService.getCurrentLibrary(id).subscribe(
       value => this.biblioteca = <Biblioteca>value
     );
@@ -94,14 +94,14 @@ export class RequisitarLivroComponent implements OnInit{
     );
   }
   goToBibiloteca(){
-    const biblioId = this.route.snapshot.paramMap.get('biblioteca');
-    let url = '/biblio/' + biblioId;
+    const biblioId = this.route.snapshot.paramMap.get('libraryId');
+    let url = '/library/' + biblioId;
     this.router.navigateByUrl(url);
   }
 
   goToMotorPesquisa(){
-    const biblioId = this.route.snapshot.paramMap.get('biblioteca');
-    let url = '/biblio/' + biblioId + '/pesquisa';
+    const biblioId = this.route.snapshot.paramMap.get('libraryId');
+    let url = '/library/' + biblioId + '/pesquisa';
     this.router.navigateByUrl(url);
   }
 

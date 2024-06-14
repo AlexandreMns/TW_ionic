@@ -12,7 +12,6 @@
           <h6>{{ biblioteca.address }}</h6>
           <p *ngIf="biblioteca.open" class="text-muted">{{ biblioteca.openStatement + " " + biblioteca.openDays }}</p>
           <ion-button expand="block" fill="outline" (click)="goToBibiloteca()">
-            <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
             Voltar à Biblioteca
           </ion-button>
           <ion-item>
@@ -46,7 +45,7 @@
       <!-- Coluna lateral com seleção de biblioteca -->
       <ion-row>
         <ion-col size="12">
-          <seleciona-biblioteca (updateBibioteca)="getBiblioId($event)"></seleciona-biblioteca>
+          <app-seleciona-biblioteca (updateBibioteca)="getBiblioId($event)"></app-seleciona-biblioteca>
         </ion-col>
       </ion-row>
     </ion-grid>

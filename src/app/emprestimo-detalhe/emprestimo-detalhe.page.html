@@ -12,7 +12,6 @@
         <h6>{{ biblioteca.address }}</h6>
         <p *ngIf="biblioteca.open" class="text-muted">{{ biblioteca.openStatement + " " + biblioteca.openDays }}</p>
         <ion-button expand="block" fill="outline" (click)="goToBibiloteca()">
-          <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
           Voltar à Biblioteca
         </ion-button>
         <ion-item>
@@ -39,9 +38,9 @@
         </ion-list>
         <p>Publicado em {{ livro.publishDate | date }}</p>
         <div *ngFor="let livros of livros">
-          <div *ngIf="livros.isbn == livro.isbn">
-            <p *ngIf="livros.stock != 0" class="text-muted">Em stock: {{ livros.stock }}</p>
-            <p *ngIf="livros.stock == 0" class="text-muted">Fora de stock</p>
+          <div *ngIf="livros.isbn === livro.isbn">
+            <p *ngIf="livros.stock !== 0" class="text-muted">Em stock: {{ livros.stock }}</p>
+            <p *ngIf="livros.stock === 0" class="text-muted">Fora de stock</p>
           </div>
         </div>
         <ion-button expand="block" fill="outline" (click)="goToConfirmarEmprestimo()">Confirmar empréstimo</ion-button>
@@ -49,7 +48,7 @@
       
       <!-- Coluna lateral com seleção de biblioteca -->
       <ion-col size="12" size-md="3">
-        <seleciona-biblioteca (updateBibioteca)="getBiblioId($event)"></seleciona-biblioteca>
+        <app-seleciona-biblioteca (updateBibioteca)="getBiblioId($event)"></app-seleciona-biblioteca>
       </ion-col>
     </ion-row>
   </ion-grid>

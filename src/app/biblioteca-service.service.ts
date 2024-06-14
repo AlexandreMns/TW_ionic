@@ -29,7 +29,7 @@ export class BibliotecaServiceService {
     return this.http.get<Biblioteca[]>(url);
   }
 
-  public getCurrentLibrary(uuid: string|null ){
+  getCurrentLibrary(uuid: string|null ){
     const url = this.servidor+'/v1/library/' + uuid;
     return this.http.get<Biblioteca>(url);
   }

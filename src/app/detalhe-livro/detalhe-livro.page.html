@@ -12,7 +12,6 @@
         <h6>{{ biblioteca.address }}</h6>
         <p *ngIf="biblioteca.open" class="text-muted">{{ biblioteca.openStatement + " " + biblioteca.openDays }}</p>
         <ion-button expand="block" fill="outline" (click)="goToBibiloteca()">
-          <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
           Voltar à Biblioteca
         </ion-button>
         <p style="margin-top: 5.5px;">Isbn: <u style="text-decoration: underline; font-size: 16px;">{{ livro.isbn }}</u></p>
@@ -56,9 +55,9 @@
             <p>{{ livro.subjects | json }}</p>
             <ion-row>
               <ion-col size="12" *ngFor="let livros of livros">
-                <ion-item *ngIf="livros.isbn == livro.isbn">
-                  <p *ngIf="livros.stock != 0" class="text-muted" style="font-weight: bolder;">Em stock: {{ livros.stock }}</p>
-                  <p *ngIf="livros.stock == 0" class="text-muted">Fora de stock</p>
+                <ion-item *ngIf="livros.isbn === livro.isbn">
+                  <p *ngIf="livros.stock !== 0" class="text-muted" style="font-weight: bolder;">Em stock: {{ livros.stock }}</p>
+                  <p *ngIf="livros.stock === 0" class="text-muted">Fora de stock</p>
                   <ion-button size="small" fill="outline" (click)="getRequisitarLivro(livros)">Requisitar livro</ion-button>
                   <ion-button size="small" fill="outline" (click)="removerLivro(livro.isbn)" style="margin-left: 10px;">Remover Livro</ion-button>
                   <ion-button size="small" fill="outline" (click)="goToEmprestimoDetalhe(livro.isbn)" style="margin-left: 686px;">Detalhe de emprestimo</ion-button>
@@ -70,7 +69,7 @@
       </ion-col>
       <!-- Coluna lateral com seleção de biblioteca -->
       <ion-col size="12" size-md="12" class="ion-margin-top">
-        <seleciona-biblioteca (updateBibioteca)="getBiblioId($event)"></seleciona-biblioteca>
+        <app-seleciona-biblioteca (updateBibioteca)="getBiblioId($event)"></app-seleciona-biblioteca>
       </ion-col>
     </ion-row>
   </ion-grid>

@@ -22,11 +22,11 @@
             <h2>{{bibio.name | uppercase}}</h2>
             <p>{{bibio.address}}</p>
             <p>{{bibio.openDays}}</p>
+            <p>{{bibio.id}}</p>
             <p class="text-muted">Aberta das {{bibio.openTime}} até {{bibio.closeTime}}.</p>
             <ion-item lines="none">
               <ion-button *ngIf="bibio.open" (click)="goToBibiloteca(bibio.id)" expand="block" fill="outline">
                 Selecionar
-                <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
               </ion-button>
               <ion-button *ngIf="!bibio.open" expand="block" fill="outline" disabled>
                 Selecionar

@@ -90,14 +90,14 @@ export class AdicionarLivroComponent implements OnInit{
   }
 
   private carregaLivros() {
-    const id = this.route.snapshot.paramMap.get('biblioteca');
+    const id = this.route.snapshot.paramMap.get('libraryId');
     this.bibliotecaService.getLibraryBooks(id).subscribe(
       value => this.livros = <LivroCompleto[]>value
     );
   }
 
   private initBiblioteca() {
-    const id = this.route.snapshot.paramMap.get('biblioteca');
+    const id = this.route.snapshot.paramMap.get('libraryId');
     this.bibliotecaService.getCurrentLibrary(id).subscribe(
       value => this.biblioteca = <Biblioteca>value
     );
@@ -115,19 +115,19 @@ export class AdicionarLivroComponent implements OnInit{
   }
 
   goToBibiloteca(){
-    const biblioId = this.route.snapshot.paramMap.get('biblioteca');
+    const biblioId = this.route.snapshot.paramMap.get('libraryId');
     let url = '/biblio/' + biblioId;
     this.router.navigateByUrl(url);
   }
 
   goToMotorPesquisa(){
-    const biblioId = this.route.snapshot.paramMap.get('biblioteca');
+    const biblioId = this.route.snapshot.paramMap.get('libraryId');
     let url = '/biblio/' + biblioId + '/pesquisa';
     this.router.navigateByUrl(url);
   }
 
   goToRequisitarLivro(livroIsbn: any){
-    const biblioId = this.route.snapshot.paramMap.get('biblioteca');
+    const biblioId = this.route.snapshot.paramMap.get('libraryId');
     let url = '/biblio/' + biblioId + '/livro/' + livroIsbn+ '/requisitar';
     this.router.navigateByUrl(url);
   }

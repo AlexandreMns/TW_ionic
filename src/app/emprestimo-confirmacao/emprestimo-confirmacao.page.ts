@@ -37,7 +37,7 @@ export class EmprestimoConfirmacaoComponent implements OnInit{
   imagem: Cover;
   user : CheckedOutBook;
   userId:string='';
-  @Input('selectedLivroId') livroId='';
+  //@Input('selectedLivroId') livroId='';
 
   constructor(private bibliotecaService: BibliotecaServiceService, private route:ActivatedRoute, private appService: AppService, private router: Router){
     this.biblioteca = {} as Biblioteca;
@@ -57,14 +57,14 @@ export class EmprestimoConfirmacaoComponent implements OnInit{
     //this.getUserCheckout();
   }
   private carregaLivros() {
-    const id = this.route.snapshot.paramMap.get('biblioteca');
+    const id = this.route.snapshot.paramMap.get('libraryId');
     this.bibliotecaService.getLibraryBooks(id).subscribe(
       value => this.livros = <LivroCompleto[]>value
     );
   }
 
   private initBiblioteca() {
-    const id = this.route.snapshot.paramMap.get('biblioteca');
+    const id = this.route.snapshot.paramMap.get('libraryId');
     this.bibliotecaService.getCurrentLibrary(id).subscribe(
       value => this.biblioteca = <Biblioteca>value
     );
@@ -93,7 +93,7 @@ export class EmprestimoConfirmacaoComponent implements OnInit{
   }
 
   goToBibiloteca(){
-    const biblioId = this.route.snapshot.paramMap.get('biblioteca');
+    const biblioId = this.route.snapshot.paramMap.get('libraryId');
     let url = '/biblio/' + biblioId;
     this.router.navigateByUrl(url);
   }

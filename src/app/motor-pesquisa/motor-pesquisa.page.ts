@@ -35,6 +35,7 @@ export class MotorPesquisaComponent implements OnInit{
   ngOnInit(): void {
     this.initBiblioteca();
     this.carregaLivros();
+    this.Terlivro(this.nomeLivro);
     this.initLivro();
   }
 
@@ -47,17 +48,19 @@ export class MotorPesquisaComponent implements OnInit{
   }
 
   private carregaLivros() {
-    const id = this.route.snapshot.paramMap.get('biblioteca');
+    const id = this.route.snapshot.paramMap.get('libraryId');
     this.bibliotecaService.getLibraryBooks(id).subscribe(
       value => this.livros = <LivroCompleto[]>value
     );
+    console.log(this.livros);
   }
 
   private initBiblioteca() {
-    const id = this.route.snapshot.paramMap.get('biblioteca');
+    const id = this.route.snapshot.paramMap.get('libraryId');
     this.bibliotecaService.getCurrentLibrary(id).subscribe(
       value => this.biblioteca = <Biblioteca>value
     );
+    console.log(this.biblioteca);
   }
 
   private initLivro(){
@@ -65,11 +68,22 @@ export class MotorPesquisaComponent implements OnInit{
     this.bibliotecaService.getBook(id).subscribe(
       value => this.livro = <Livro>value
     );
+    console.log(this.livro);
+  }
+
+  private Terlivro(titulo: string){
+    for (let i = 0; i < this.livros.length; i++) {
+      if (titulo == this.livros[i].book.title) {
+        this.livro = this.livros[i].book;
+        console.log(this.livro);
+      }
+    }
+    console.log(this.livro);
   }
 
   goToBibiloteca(){
-    const biblioId = this.route.snapshot.paramMap.get('biblioteca');
-    let url = '/biblio/' + biblioId;
+    const biblioId = this.route.snapshot.paramMap.get('libraryId');
+    let url = '/library/' + biblioId;
     this.router.navigateByUrl(url);
   }
 

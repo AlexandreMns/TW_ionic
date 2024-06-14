@@ -18,14 +18,21 @@
         <ion-button expand="block" fill="outline" (click)="goToEmprestimoLivroDevolvidos()">Livros por devolver</ion-button>
         <ion-button expand="block" fill="outline" (click)="goToEmprestimoLivroHistorico()" class="ion-margin-start">Livros devolvidos</ion-button>
         <ion-item lines="none" class="ion-margin-top">
-          <ion-input #box type="text" placeholder="Digite sua pesquisa" [(ngModel)]="boxValue"></ion-input>
-          <ion-button (click)="goToMotorPesquisa()" type="submit">Pesquisar</ion-button>
+          <ion-input
+            #box
+            type="text"
+            placeholder="Digite sua pesquisa"
+            [(ngModel)]="boxValue"
+            (ngModelChange)="onInputChange(boxValue)"
+            (keyup.enter)="onEnter(boxValue)"
+          ></ion-input>
+          <p>{{ erroPesquisa }}</p>
         </ion-item>
       </ion-col>
     </ion-row>
     
     <ion-row>
-      <ion-col size="12" size-md="4" *ngFor="let livro of livros">
+      <ion-col size="12" size-md="4" *ngFor="let livro of filteredLivros">
         <ion-card>
           <ion-card-content class="ion-text-center">
             <div class="italico">
@@ -35,10 +42,10 @@
             <div style="height: 100px;">
               <h3>{{ "Título: " + livro.book.title }}</h3>
             </div>
-            <img [src]="getImg(livro, 1)" alt="Capa do livro" class="img-thumbnail" style="height: 280px;">
+            <img [src]="getImg(livro.book, 1)" alt="Capa do livro" class="img-thumbnail" style="height: 280px;">
             <p>{{ livro.book.byStatement }} publicado em {{livro.book.publishDate}}</p>
-            <ion-button expand="block" fill="outline" (click)="goToDetalhes(livro.isbn)">Detalhes do livro</ion-button>
-            <ion-button expand="block" fill="outline" (click)="getRequisitarLivro(livro)">Requisitar livro</ion-button>
+            <ion-button expand="block" fill="outline" (click)="goToDetalhes(livro.book.isbn)">Detalhes do livro</ion-button>
+            <!--<ion-button expand="block" fill="outline" (click)="getRequisitarLivro(livro.book.isbn)">Requisitar livro</ion-button>-->
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -46,9 +53,8 @@
     
     <ion-row>
       <ion-col size="12">
-        <seleciona-biblioteca (updateBibioteca)="getBiblioId($event)"></seleciona-biblioteca>
+        <app-seleciona-biblioteca (updateBibioteca)="getBiblioId($event)"></app-seleciona-biblioteca>
       </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>
-

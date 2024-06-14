@@ -32,7 +32,9 @@ export class UsarBibliotecaRouteComponent implements OnInit{
   nomeLivro: string;
   erroPesquisa: string;
   request: BookRequeste
+  possibleMatches: Livro[];
   resultadosPesquisa: Livro[];
+  filteredLivros: { book: Livro, stock: number }[] = [];
   //imagem:Cover;
   livros: LivroCompleto[] = [];
   livro: Livro;
@@ -45,10 +47,12 @@ export class UsarBibliotecaRouteComponent implements OnInit{
   constructor(private bibliotecaService: BibliotecaServiceService, private route:ActivatedRoute, private appService: AppService, private router: Router) {
     this.biblioteca = {} as Biblioteca;
     this.erroPesquisa = '';
+    this.possibleMatches = [];
     this.resultadosPesquisa = [];
     this.request = {} as BookRequeste;
     this.nomeLivro = '';
     this.livro = {} as Livro;
+    this.filteredLivros = this.livros;
     this.appService.getUserId.subscribe(
       result => this.userId = result
     );
@@ -60,18 +64,21 @@ export class UsarBibliotecaRouteComponent implements OnInit{
     this.initUserCheckout(this.userId);
   }
 
+
   private carregaLivros() {
-    const id = this.route.snapshot.paramMap.get('biblioteca');
+    const id = this.route.snapshot.paramMap.get('libraryId');
+    console.log(id);
     this.bibliotecaService.getLibraryBooks(id).subscribe(
       value => this.livros = <LivroCompleto[]>value
     );
   }
 
   private initBiblioteca() {
-    const id = this.route.snapshot.paramMap.get('biblioteca');
+    const id = this.route.snapshot.paramMap.get('libraryId');
     this.bibliotecaService.getCurrentLibrary(id).subscribe(
       value => this.biblioteca = <Biblioteca>value
     );
+    console.log(id)
   }
 
   private initUserCheckout(id: string){
@@ -110,16 +117,33 @@ export class UsarBibliotecaRouteComponent implements OnInit{
       value => this.biblioteca = <Biblioteca>value
     );
   }
+  
+  
+  onInputChange(titulo: string) {
+    if (titulo) {
+      const regex = new RegExp(titulo, 'i'); // 'i' flag for case-insensitive matching
+      this.filteredLivros = this.livros.filter(livro => regex.test(livro.book.title));
+
+      if (this.filteredLivros.length === 0) {
+        this.erroPesquisa = 'Título inválido';
+      } else {
+        this.erroPesquisa = '';
+      }
+    } else {
+      this.filteredLivros = this.livros;
+      this.erroPesquisa = '';
+    }
+  }
 
   onEnter(titulo: string) {
-    for (let i = 0; i < this.livros.length; i++) {
-      if (titulo == this.livros[i].book.title) {
-        this.associarLivro(this.livros[i].book.isbn);
-        this.erroPesquisa = 'ISBN válido';
-      } else {
-        this.erroPesquisa = 'Título inválido';
-        this.livro = {} as Livro;
-      }
+    if (this.filteredLivros.length === 1) {
+      // If there's exactly one match, navigate to its details or perform an action
+      this.goToDetalhes(this.filteredLivros[0].book.isbn);
+    } else if (this.filteredLivros.length > 1) {
+      // If there are multiple matches, navigate to a search results page
+      this.router.navigate(['/motor-pesquisa'], { queryParams: { query: titulo } });
+    } else {
+      this.erroPesquisa = 'Título inválido';
     }
   }
   getImg(livro: LivroCompleto | Livro, tamanho: number){
@@ -132,38 +156,38 @@ export class UsarBibliotecaRouteComponent implements OnInit{
     );
   }
   goToDetalhes(livro: any){
-    const biblioId = this.route.snapshot.paramMap.get('biblioteca');
-    let url = '/biblio/' + biblioId + '/livro/'+ livro;
+    const biblioId = this.route.snapshot.paramMap.get('libraryId');
+    let url = '/library/' + biblioId + '/book/'+ livro;
     this.router.navigateByUrl(url);
   }
 
   goToMotorPesquisa(){
-    const biblioId = this.route.snapshot.paramMap.get('biblioteca');
-    let url = '/biblio/' + biblioId + '/pesquisa';
+    const biblioId = this.route.snapshot.paramMap.get('libraryId');
+    let url = '/library/' + biblioId + '/search';
     this.router.navigateByUrl(url);
   }
 
   goToEmprestimoLivroDevolvidos(){
-    const biblioId = this.route.snapshot.paramMap.get('biblioteca');
-    let url = '/biblio/' + biblioId + '/emprestimo/livrosDevolvidos';
+    const biblioId = this.route.snapshot.paramMap.get('libraryId');
+    let url = '/library/' + biblioId + '/emprestimo/livrosDevolvidos';
     this.router.navigateByUrl(url);
   }
 
   goToEmprestimoLivroHistorico(){
-    const biblioId = this.route.snapshot.paramMap.get('biblioteca');
-    let url = '/biblio/' + biblioId + '/emprestimo/livrosHistorico';
+    const biblioId = this.route.snapshot.paramMap.get('libraryId');
+    let url = '/library/' + biblioId + '/emprestimo/livrosHistorico';
     this.router.navigateByUrl(url);
   }
 
   goToAdicionarLivro(){
-    const biblioId = this.route.snapshot.paramMap.get('biblioteca');
-    let url = '/biblio/' + biblioId + '/adicionar';
+    const biblioId = this.route.snapshot.paramMap.get('libraryId');
+    let url = '/library/' + biblioId + '/adicionar';
     this.router.navigateByUrl(url);
   }
 
   goToRequisitarLivro(){
-    const biblioId = this.route.snapshot.paramMap.get('biblioteca');
-    let url = '/biblio/' + biblioId + '/requisitados';
+    const biblioId = this.route.snapshot.paramMap.get('libraryId');
+    let url = '/library/' + biblioId + '/requisitados';
     this.router.navigateByUrl(url);
   }
 

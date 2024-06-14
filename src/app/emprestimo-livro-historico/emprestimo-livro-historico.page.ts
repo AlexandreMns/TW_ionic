@@ -45,7 +45,7 @@ export class EmprestimoLivroHistoricoComponent implements OnInit{
   @Output() updateBibioteca = new EventEmitter <string> ();
   userId:string='';
   mensagem:string = '';
-  @Input('selectedLivroId') livroId=''
+  //@Input('selectedLivroId') livroId=''
   deliveryDate: Date = new Date();
   selectedUser = '';
   options = [
@@ -99,14 +99,14 @@ export class EmprestimoLivroHistoricoComponent implements OnInit{
   }
 
   private carregaLivros() {
-    const id = this.route.snapshot.paramMap.get('biblioteca');
+    const id = this.route.snapshot.paramMap.get('libraryId');
     this.bibliotecaService.getLibraryBooks(id).subscribe(
       value => this.livros = <LivroCompleto[]>value
     );
   }
 
   private initBiblioteca() {
-    const id = this.route.snapshot.paramMap.get('biblioteca');
+    const id = this.route.snapshot.paramMap.get('libraryId');
     this.bibliotecaService.getCurrentLibrary(id).subscribe(
       value => this.biblioteca = <Biblioteca>value
     );
@@ -150,20 +150,20 @@ export class EmprestimoLivroHistoricoComponent implements OnInit{
   }
 
   goToDetalhes(livro: any){
-    const biblioId = this.route.snapshot.paramMap.get('biblioteca');
-    let url = '/biblio/' + biblioId + '/livro/'+ livro;
+    const biblioId = this.route.snapshot.paramMap.get('libraryId');
+    let url = '/library/' + biblioId + '/book/'+ livro;
     this.router.navigateByUrl(url);
   }
 
   goToBibiloteca(){
-    const biblioId = this.route.snapshot.paramMap.get('biblioteca');
-    let url = '/biblio/' + biblioId;
+    const biblioId = this.route.snapshot.paramMap.get('libraryId');
+    let url = '/library/' + biblioId;
     this.router.navigateByUrl(url);
   }
 
   goTolivros(){
-    const biblioId = this.route.snapshot.paramMap.get('biblioteca');
-    let url = '/biblio/' + biblioId + '/livros';
+    const biblioId = this.route.snapshot.paramMap.get('libraryId');
+    let url = '/library/' + biblioId + '/books';
     this.router.navigateByUrl(url);
   }
   
