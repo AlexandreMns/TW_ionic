@@ -12,11 +12,11 @@ export const routes: Routes = [
   {
     path: 'library/:libraryId/requisitados',
     loadComponent: () => import('./requisitar-livro/requisitar-livro.page').then( m => m.RequisitarLivroComponent)
-  },
+  },/*
   {
     path: 'library/:libraryId/search',
     loadComponent: () => import('./motor-pesquisa/motor-pesquisa.page').then( m => m.MotorPesquisaComponent)
-  },
+  },*/
   {
     path: 'library/:libraryId/book/:id',
     loadComponent: () => import('./detalhe-livro/detalhe-livro.page').then( m => m.DetalheLivroComponent)

@@ -34,6 +34,27 @@ export class BibliotecaServiceService {
     return this.http.get<Biblioteca>(url);
   }
 
+  public checkOutBook(isbn: string, userId: string, bibliotecaId: string | null): Observable<any> {
+    const url = this.servidor +'/v1/library/'+bibliotecaId+'/book/'+ isbn+'/checkout?userId='+ userId;
+    return this.http.post(url, {});
+  }
+
+  public checkInBook(isbn: string, userId: string, bibliotecaId: string | null): Observable<any> {
+    const url = this.servidor+'/v1/library/'+bibliotecaId+'/book/'+isbn+'/checkin?userId='+ userId;
+    return this.http.post(url, {});
+  }
+
+  public addBookToLibrary(bibliotecaId: string, isbn: string, createLibraryBookRequest: any): Observable<any> {
+    const url = this.servidor+'/v1/library/'+bibliotecaId+'/book/'+ isbn;
+    return this.http.post(url, createLibraryBookRequest);
+  }
+
+  public updateBookStock(bibliotecaId: string, isbn: string, updateLibraryBookRequest: any): Observable<any> {
+    const url = this.servidor+'/v1/library/'+bibliotecaId+'/book/'+ isbn;
+    return this.http.put(url, updateLibraryBookRequest);
+  }
+
+
   public getLibraryBooks(uuid: string|null){
     const url = this.servidor+'/v1/library/' + uuid + '/book';
     return this.http.get<LivroCompleto[]>(url);

@@ -24,17 +24,16 @@ import { IonicModule } from '@ionic/angular';
   templateUrl: './detalhe-livro.page.html',
   styleUrl: './detalhe-livro.page.scss'
 })
-export class DetalheLivroComponent implements OnInit{
+export class DetalheLivroComponent implements OnInit {
   livros: LivroCompleto[] = [];
   livroCompleto: LivroCompleto;
   livro: Livro;
   imagem: Cover;
   removidos: LivroCompleto[] = [];
-  biblioteca:Biblioteca;
+  biblioteca: Biblioteca;
   requisitados: Livro[] = [];
-  @Output() updateLivro = new EventEmitter <string> ();
-  userId:string='';
-  //@Input('selectedLivroId') livroId='';
+  @Output() updateLivro = new EventEmitter<string>();
+  userId: string = '';
 
   ngOnInit(): void {
     this.initBiblioteca();
@@ -42,14 +41,17 @@ export class DetalheLivroComponent implements OnInit{
     this.initLivro();
   }
 
-  constructor(private bibliotecaService: BibliotecaServiceService, private route:ActivatedRoute, private appService: AppService, private router: Router) {
+  constructor(
+    private bibliotecaService: BibliotecaServiceService,
+    private route: ActivatedRoute,
+    private appService: AppService,
+    private router: Router
+  ) {
     this.biblioteca = {} as Biblioteca;
     this.livro = {} as Livro;
     this.livroCompleto = {} as LivroCompleto;
     this.imagem = {} as Cover;
-    this.appService.getUserId.subscribe(
-      result => this.userId = result
-    );
+    this.appService.getUserId.subscribe(result => this.userId = result);
   }
 
   private carregaLivros() {
@@ -66,66 +68,67 @@ export class DetalheLivroComponent implements OnInit{
     );
   }
 
-  private initLivro(){
+  private initLivro() {
     const id = this.route.snapshot.paramMap.get('id');
     this.bibliotecaService.getBook(id).subscribe(
       value => this.livro = <Livro>value
     );
   }
 
-  goToBibiloteca(){
+  goToBibiloteca() {
     const biblioId = this.route.snapshot.paramMap.get('libraryId');
-    let url = '/biblio/' + biblioId;
+    let url = '/library/' + biblioId;
     this.router.navigateByUrl(url);
   }
 
-  goToRequisitarLivro(livroIsbn: any){
+  goToRequisitarLivro(livroIsbn: any) {
     const biblioId = this.route.snapshot.paramMap.get('libraryId');
-    let url = '/biblio/' + biblioId + '/livro/' + livroIsbn+ '/requisitar';
+    let url = '/biblio/' + biblioId + '/livro/' + livroIsbn + '/requisitar';
     this.router.navigateByUrl(url);
   }
 
-  goToEmprestimoDetalhe(livroIsbn: any){
+  goToEmprestimoDetalhe(livroIsbn: any) {
     const biblioId = this.route.snapshot.paramMap.get('libraryId');
     let url = '/biblio/' + biblioId + '/emprestimo/livro/' + livroIsbn;
     this.router.navigateByUrl(url);
   }
 
-  goToMotorPesquisa(){
-    const biblioId = this.route.snapshot.paramMap.get('libraryId');
-    let url = '/biblio/' + biblioId + '/pesquisa';
-    this.router.navigateByUrl(url);
-  }
-  
-  getBiblioId(id:string){
+  getBiblioId(id: string) {
     this.bibliotecaService.getCurrentLibrary(id).subscribe(
       value => this.biblioteca = <Biblioteca>value
     );
   }
 
-  getRequisitarLivro(livro: LivroCompleto){
-    return this.bibliotecaService.requisitarLivro(livro);
+  getRequisitarLivro(livro: LivroCompleto) {
+    const bibliotecaId = this.route.snapshot.paramMap.get('libraryId');
+    this.bibliotecaService.checkOutBook(livro.isbn, this.userId, bibliotecaId).subscribe(
+      (response) => {
+        console.log('Book checked out:', response);
+        alert('Livro requisitado com sucesso!');
+      },
+      (error) => {
+        console.error('Error checking out book:', error);
+        alert('Erro ao requisitar o livro. Por favor, tente novamente.');
+      }
+    );
   }
 
-  
-  //Não funciona ainda
   removerLivro(isbn: string | null) {
     alert("Removendo livro com ISBN: " + isbn);
     this.bibliotecaService.removerLivro(isbn, this.biblioteca.id).subscribe(
-        () => {
-            this.livro;
-            alert("Livro removido com sucesso!");
-        }, 
-        error => {
-            if(error == 404 ){
-                alert("Tem livros emprestados impossíveis de remover");
-            }
+      () => {
+        this.livro;
+        alert("Livro removido com sucesso!");
+      }, 
+      error => {
+        if (error == 404) {
+          alert("Tem livros emprestados impossíveis de remover");
         }
+      }
     );
-}
-  //Não funciona ainda
+  }
 
-  getImg(livro: Livro, tamanho: number){
+  getImg(livro: Livro, tamanho: number) {
     return this.bibliotecaService.getImagens(livro, tamanho);
   }
 }

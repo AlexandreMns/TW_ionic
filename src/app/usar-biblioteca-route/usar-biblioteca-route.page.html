@@ -24,7 +24,6 @@
             placeholder="Digite sua pesquisa"
             [(ngModel)]="boxValue"
             (ngModelChange)="onInputChange(boxValue)"
-            (keyup.enter)="onEnter(boxValue)"
           ></ion-input>
           <p>{{ erroPesquisa }}</p>
         </ion-item>

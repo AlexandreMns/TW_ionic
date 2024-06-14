@@ -26,26 +26,24 @@ import { NgForm, FormsModule } from '@angular/forms';
   templateUrl: './adicionar-livro.page.html',
    styleUrl: './adicionar-livro.page.scss'
 })
-export class AdicionarLivroComponent implements OnInit{
+export class AdicionarLivroComponent implements OnInit {
   livros: LivroCompleto[] = [];
   livro: Livro;
   imagem: Cover;
   x: boolean = false;
   boxValue: string = '';
-  stockIsbn: number;
+  stockIsbn: number = 0;
   mensagemErro: string = ''; 
-  biblioteca:Biblioteca;
+  biblioteca: Biblioteca;
   livroISBN: string = '';
-  @Output() updateLivro = new EventEmitter <string> ();
-  userId:string='';
-  //@Input('selectedLivroId') livroId='';
+  @Output() updateLivro = new EventEmitter<string>();
+  userId: string = '';
   selectedLivroId: string = '';
 
-  constructor(private bibliotecaService: BibliotecaServiceService,private route:ActivatedRoute, private appService: AppService, private router: Router) {
+  constructor(private bibliotecaService: BibliotecaServiceService, private route: ActivatedRoute, private appService: AppService, private router: Router) {
     this.livro = {} as Livro;
     this.imagem = {} as Cover;
     this.livros = [];
-    this.stockIsbn = 0;
     this.biblioteca = {} as Biblioteca;
     this.appService.getUserId.subscribe(
       result => this.userId = result
@@ -56,20 +54,15 @@ export class AdicionarLivroComponent implements OnInit{
     this.initBiblioteca();
     this.carregaLivros();
   }
-  
-  sensorEnter(event: boolean){
-    if(event == true){
-      this.x = true;
-      return this.x;
-    } else {
-      this.x = false;
-      return this.x;
-    }
+
+  sensorEnter(event: boolean) {
+    this.x = event;
   }
-  onEnter(ISBN: string  ) {
-      if (this.isValidISBN(ISBN)) {
+
+  onEnter(ISBN: string, bibliotecaId: string) {
+    if (this.isValidISBN(ISBN)) {
       this.livroISBN = ISBN;
-      this.initLivro(this.livroISBN);
+      this.initLivro(this.livroISBN, bibliotecaId);
       this.mensagemErro = 'ISBN válido';
     } else {
       this.mensagemErro = 'ISBN inválido';
@@ -78,15 +71,8 @@ export class AdicionarLivroComponent implements OnInit{
   }
 
   isValidISBN(ISBN: string): boolean {
-    // Remove espaços em branco e hifens do ISBN
     const cleanedISBN = ISBN.replace(/[^\dX]/gi, '');
-  
-    // Verifica se o comprimento do ISBN é válido entre 10 a 13 digiros 
-    if (cleanedISBN.length !== 10 && cleanedISBN.length !== 13) {
-      return false;
-    }
-  
-    return true;
+    return cleanedISBN.length === 10 || cleanedISBN.length === 13;
   }
 
   private carregaLivros() {
@@ -103,60 +89,46 @@ export class AdicionarLivroComponent implements OnInit{
     );
   }
 
-  initLivro(isbn: string){
+  initLivro(isbn: string, bibliotecaId: string) {
     this.bibliotecaService.getBook(isbn).subscribe(
-      value => {this.livro = <Livro>value
+      (value: Livro) => {
+        this.livro = value;
       },
-      (error: any) => {
-        console.error('Error:', error);
-        this.livro = {} as Livro; // Set livro to an empty object when an error occurs
+      (error) => {
+        this.mensagemErro = 'ISBN inválido';
       }
     );
   }
 
-  goToBibiloteca(){
+  submitStock() {
+    const createLibraryBookRequest = { stock: this.stockIsbn };
+    this.bibliotecaService.addBookToLibrary(this.biblioteca.id, this.livroISBN, createLibraryBookRequest).subscribe(
+      (response) => {
+        console.log('Book added with stock:', response);
+      },
+      (error) => {
+        console.error('Error adding book:', error);
+      }
+    );
+  }
+
+  goToBibiloteca() {
     const biblioId = this.route.snapshot.paramMap.get('libraryId');
-    let url = '/biblio/' + biblioId;
+    const url = '/biblio/' + biblioId;
     this.router.navigateByUrl(url);
   }
 
-  goToMotorPesquisa(){
-    const biblioId = this.route.snapshot.paramMap.get('libraryId');
-    let url = '/biblio/' + biblioId + '/pesquisa';
-    this.router.navigateByUrl(url);
-  }
-
-  goToRequisitarLivro(livroIsbn: any){
-    const biblioId = this.route.snapshot.paramMap.get('libraryId');
-    let url = '/biblio/' + biblioId + '/livro/' + livroIsbn+ '/requisitar';
-    this.router.navigateByUrl(url);
-  }
-  
-  getBiblioId(id:string){
+  getBiblioId(id: string) {
     this.bibliotecaService.getCurrentLibrary(id).subscribe(
       value => this.biblioteca = <Biblioteca>value
     );
   }
 
-  getImg(livro: Livro, tamanho: number){
+  getImg(livro: Livro, tamanho: number) {
     return this.bibliotecaService.getImagens(livro, tamanho);
   }
-
-
-  // Method to handle button click (if needed)
-  handleClick() {
-    console.log('Box Value:', this.boxValue);
-  }
-
 
   selectBook(id: string) {
     this.selectedLivroId = id;
   }
-
-  
-
-  /*getStockISBN(isbn: string): number {
-    const livro = this.livros.find((livro: LivroCompleto) => livro.isbn === isbn);
-    return livro ? livro.stock : this.stockIsbn;
-  }*/
 }

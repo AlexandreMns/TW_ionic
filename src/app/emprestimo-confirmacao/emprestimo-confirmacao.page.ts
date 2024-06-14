@@ -94,7 +94,7 @@ export class EmprestimoConfirmacaoComponent implements OnInit{
 
   goToBibiloteca(){
     const biblioId = this.route.snapshot.paramMap.get('libraryId');
-    let url = '/biblio/' + biblioId;
+    let url = '/library/' + biblioId;
     this.router.navigateByUrl(url);
   }
 

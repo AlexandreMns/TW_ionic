@@ -1,63 +1,60 @@
 <ion-header>
-    <ion-toolbar>
-      <ion-title>{{ biblioteca.name }}</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  
-  <ion-content class="ion-padding">
-    <ion-grid>
-      <ion-row class="ion-margin-bottom">
-        <ion-col size="12" size-md="9">
-          <h2>{{ biblioteca.name }}</h2>
-          <h6>{{ biblioteca.address }}</h6>
-          <p *ngIf="biblioteca.open" class="text-muted">{{ biblioteca.openStatement + " " + biblioteca.openDays }}</p>
-          <div class="container" style="margin-top: 30px;">
-            <ion-button size="small" fill="outline" (click)="goToBibiloteca()">
-              Voltar à Biblioteca
-            </ion-button>
-            <ion-input class="input-livro" #box [(ngModel)]="boxValue" placeholder="Insira o ISBN do livro"></ion-input>
-            <p *ngIf="mensagemErro === 'ISBN inválido'">{{ mensagemErro }}</p>
-            <ng-container *ngIf="mensagemErro === 'ISBN válido'">
-              <p>{{ "Isbn: "+livro.isbn }}</p>
-              <p>{{ "Título: "+ livro.title }}</p>
-              <p>{{ livro.byStatement }}</p>
-              <ion-img *ngIf="getImg(livro, 2) === null" [src]='getImg(livro, 2)' alt="Capa do livro" class="img-thumbnail"></ion-img>
-              <ion-img *ngIf="getImg(livro, 2) !== null" [src]='getImg(livro, 2)' alt="Capa do livro" class="img-thumbnail"></ion-img>
-              <p>{{ livro.description }}</p>
-              <ng-container *ngIf="livro.authors && livro.authors.length > 0">
-                <ng-container *ngFor="let author of livro.authors">
-                  <p *ngIf="author.name">Nome: {{ author.name }}</p>
-                  <p *ngIf="author.bio">Bibliografia: {{ author.bio }}</p>
-                  <p *ngIf="author.deathDate">Data da morte de {{author.name}}: {{ author.deathDate }}</p>
-                  <p *ngIf="author.birthDate">Data de nascimento de {{author.name}}: {{ author.birthDate }}</p>
-                  <p *ngIf="author.id">ID: {{ author.id }}</p>
-                  <ion-list *ngIf="author.alternateName && author.alternateName.length > 0">
-                    <ion-item>
-                      <ion-label>
-                        <p>Alternate Names:</p>
-                        <ion-list>
-                          <ion-item *ngFor="let name of author.alternateName">
-                            <p>{{ name }}</p>
-                          </ion-item>
-                        </ion-list>
-                      </ion-label>
-                    </ion-item>
-                  </ion-list>
-                </ng-container>
+  <ion-toolbar>
+    <ion-title>{{ biblioteca.name }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-grid>
+    <ion-row class="ion-margin-bottom">
+      <ion-col size="12" size-md="9">
+        <h2>{{ biblioteca.name }}</h2>
+        <h6>{{ biblioteca.address }}</h6>
+        <p *ngIf="biblioteca.open" class="text-muted">{{ biblioteca.openStatement + " " + biblioteca.openDays }}</p>
+        <div class="container" style="margin-top: 30px;">
+          <ion-button size="small" fill="outline" (click)="goToBibiloteca()">
+            Voltar à Biblioteca
+          </ion-button>
+          <ion-input class="input-livro" #box [(ngModel)]="boxValue" placeholder="Insira o ISBN do livro" (keyup.enter)="onEnter(boxValue, biblioteca.id)"></ion-input>
+          <p *ngIf="mensagemErro">{{ mensagemErro }}</p>
+          <ng-container *ngIf="mensagemErro === 'ISBN válido'">
+            <p>{{ "Isbn: " + livro.isbn }}</p>
+            <p>{{ "Título: " + livro.title }}</p>
+            <p>{{ livro.byStatement }}</p>
+            <ion-img [src]='getImg(livro, 2)' alt="Capa do livro" class="img-thumbnail"></ion-img>
+            <p>{{ livro.description }}</p>
+            <ng-container *ngIf="livro.authors && livro.authors.length > 0">
+              <ng-container *ngFor="let author of livro.authors">
+                <p *ngIf="author.name">Nome: {{ author.name }}</p>
+                <p *ngIf="author.bio">Bibliografia: {{ author.bio }}</p>
+                <p *ngIf="author.deathDate">Data da morte de {{author.name}}: {{ author.deathDate }}</p>
+                <p *ngIf="author.birthDate">Data de nascimento de {{author.name}}: {{ author.birthDate }}</p>
+                <p *ngIf="author.id">ID: {{ author.id }}</p>
+                <ion-list *ngIf="author.alternateName && author.alternateName.length > 0">
+                  <ion-item>
+                    <ion-label>
+                      <p>Alternate Names:</p>
+                      <ion-list>
+                        <ion-item *ngFor="let name of author.alternateName">
+                          <p>{{ name }}</p>
+                        </ion-item>
+                      </ion-list>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
               </ng-container>
-              <p *ngIf="x">Número de páginas: {{ livro.numberOfPages }}</p>
-              <ion-input type="number" placeholder="Digite o Stock" name="stock" ngModel></ion-input>
-              <!--(click)="submitStock()"-->
-              <ion-button>Submit</ion-button>
             </ng-container>
-            <ion-button size="small" fill="outline" class="terceiro" (click)="goToBibiloteca()">Adicionar {{ livro.title }} à biblioteca</ion-button>
-          </div>
-        </ion-col>
-        <!-- Coluna lateral com seleção de biblioteca -->
-        <ion-col size="12" size-md="3">
-          <app-seleciona-biblioteca (updateBibioteca)="getBiblioId($event)"></app-seleciona-biblioteca>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-content>
-  
+            <p *ngIf="x">Número de páginas: {{ livro.numberOfPages }}</p>
+            <ion-input type="number" placeholder="Digite o Stock" name="stock" [(ngModel)]="stockIsbn"></ion-input>
+            <ion-button (click)="submitStock()">Submit</ion-button>
+          </ng-container>
+          <ion-button size="small" fill="outline" class="terceiro" (click)="goToBibiloteca()">Adicionar {{ livro.title }} à biblioteca</ion-button>
+        </div>
+      </ion-col>
+      <!-- Coluna lateral com seleção de biblioteca -->
+      <ion-col size="12" size-md="3">
+        <app-seleciona-biblioteca (updateBibioteca)="getBiblioId($event)"></app-seleciona-biblioteca>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
