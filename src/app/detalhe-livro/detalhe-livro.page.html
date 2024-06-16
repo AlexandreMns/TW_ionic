@@ -58,8 +58,10 @@
                 <ion-item *ngIf="livros.isbn === livro.isbn">
                   <p *ngIf="livros.stock !== 0" class="text-muted" style="font-weight: bolder;">Em stock: {{ livros.stock }}</p>
                   <p *ngIf="livros.stock === 0" class="text-muted">Fora de stock</p>
-                  <ion-button size="small" fill="outline" (click)="getRequisitarLivro(livros)">Requisitar livro</ion-button>
+                  <ion-button size="small" fill="outline" (click)="checkOutBook(livro)">Requisitar livro</ion-button>
                   <ion-button size="small" fill="outline" (click)="removerLivro(livro.isbn)" style="margin-left: 10px;">Remover Livro</ion-button>
+                  <ion-input type="number" placeholder="Digite o Stock" name="stock" [(ngModel)]="stockIsbn"></ion-input>
+                  <ion-button (click)="updateStock(livros)">Submit</ion-button>
                   <ion-button size="small" fill="outline" (click)="goToEmprestimoDetalhe(livro.isbn)" style="margin-left: 686px;">Detalhe de emprestimo</ion-button>
                 </ion-item>
               </ion-col>

@@ -11,6 +11,8 @@ import { Output, EventEmitter } from '@angular/core';
 import { SelecionaBibliotecaComponent } from '../seleciona-biblioteca/seleciona-biblioteca.page';
 import { Livro } from '../models/Livro';
 import { IonicModule } from '@ionic/angular';
+import { LibraryServiceService } from '../library-service.service';
+import { FormsModule, NgModel } from '@angular/forms';
 
 @Component({
   selector: 'app-detalhe-livro',
@@ -19,7 +21,8 @@ import { IonicModule } from '@ionic/angular';
     CommonModule,
     RouterModule,
     SelecionaBibliotecaComponent,
-    IonicModule
+    IonicModule,
+    FormsModule
   ],
   templateUrl: './detalhe-livro.page.html',
   styleUrl: './detalhe-livro.page.scss'
@@ -28,6 +31,7 @@ export class DetalheLivroComponent implements OnInit {
   livros: LivroCompleto[] = [];
   livroCompleto: LivroCompleto;
   livro: Livro;
+  stockIsbn: number = 0;
   imagem: Cover;
   removidos: LivroCompleto[] = [];
   biblioteca: Biblioteca;
@@ -39,19 +43,23 @@ export class DetalheLivroComponent implements OnInit {
     this.initBiblioteca();
     this.carregaLivros();
     this.initLivro();
+    console.log(this.userId);
   }
 
   constructor(
     private bibliotecaService: BibliotecaServiceService,
     private route: ActivatedRoute,
     private appService: AppService,
-    private router: Router
+    private router: Router,
+    private libraryService: LibraryServiceService
   ) {
     this.biblioteca = {} as Biblioteca;
     this.livro = {} as Livro;
     this.livroCompleto = {} as LivroCompleto;
     this.imagem = {} as Cover;
-    this.appService.getUserId.subscribe(result => this.userId = result);
+    this.appService.getUserId.subscribe(
+      result => this.userId = result
+    );
   }
 
   private carregaLivros() {
@@ -99,6 +107,13 @@ export class DetalheLivroComponent implements OnInit {
     );
   }
 
+  updateStock(livro: LivroCompleto) {
+    const updateLibraryBookRequest = { stock: this.stockIsbn };
+    this.bibliotecaService.updateBookStock(this.biblioteca.id, livro.isbn, updateLibraryBookRequest).subscribe(
+      value => this.livroCompleto = <LivroCompleto>value
+    );
+  }
+
   getRequisitarLivro(livro: LivroCompleto) {
     const bibliotecaId = this.route.snapshot.paramMap.get('libraryId');
     this.bibliotecaService.checkOutBook(livro.isbn, this.userId, bibliotecaId).subscribe(
@@ -130,5 +145,20 @@ export class DetalheLivroComponent implements OnInit {
 
   getImg(livro: Livro, tamanho: number) {
     return this.bibliotecaService.getImagens(livro, tamanho);
+  }
+
+  checkOutBook(livro: Livro): void {
+    const confirmation = confirm('Você tem certeza que quer requisitar este livro?');
+    if (confirmation) {
+      this.bibliotecaService.checkOutBook(livro.isbn, this.userId, this.biblioteca.id).subscribe(
+        () => {
+          alert(`Livro requisitado com sucesso!\nISBN do livro: ${livro.isbn}+\nNome do usuário: +${this.userId}`);
+        },
+        error => {
+          alert('Erro ao requisitar o livro. Por favor, tente novamente.');
+          console.error('Erro ao requisitar o livro:', error);
+        }
+      );
+    }
   }
 }
